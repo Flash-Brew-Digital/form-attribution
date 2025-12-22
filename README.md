@@ -1,6 +1,11 @@
-# form-attribution
+# Form Attribution
 
 Automatically capture and persist marketing attribution parameters (UTM tags, referrer data, landing pages) and inject them into HTML forms as hidden fields.
+
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE.md)
+[![npm version](https://img.shields.io/npm/v/form-attribution.svg)](https://www.npmjs.com/package/form-attribution)
+
+**[Try the Script Builder](https://form-attribution.flashbrew.digital)** - Generate a configured script tag with a visual interface.
 
 ## Features
 
@@ -142,7 +147,7 @@ This creates fields like `lead_utm_source`, `lead_utm_medium`, etc.
 
 ## Script Builder
 
-Use the interactive [Script Builder](script-builder/index.html) tool to generate a configured script tag with a visual interface.
+Use the interactive [Script Builder](https://form-attribution.flashbrew.digital) tool to generate a configured script tag with a visual interface.
 
 ## Storage Fallback Chain
 

@@ -21,6 +21,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Minify JavaScript
+        run: npx terser script-builder/script.js -o script-builder/script.min.js
+
+      - name: Minify CSS
+        run: npx clean-css-cli -o script-builder/style.min.css script-builder/style.css
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
