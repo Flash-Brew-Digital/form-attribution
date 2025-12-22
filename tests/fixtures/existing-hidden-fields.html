@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Existing Hidden Fields Test</title>
+  </head>
+  <body>
+    <h1>Existing Hidden Fields Test</h1>
+
+    <form id="form-with-hidden" action="/submit" method="post">
+      <input type="hidden" name="utm_source" value="predefined">
+      <input type="hidden" name="utm_medium" value="should-be-updated">
+      <input type="text" name="user-input">
+      <button type="submit">Submit</button>
+    </form>
+
+    <script src="/dist/script.js" data-debug="true"></script>
+  </body>
+</html>

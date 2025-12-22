@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extra Params Test</title>
+  </head>
+  <body>
+    <h1>Extra Params Test</h1>
+
+    <form id="extra-params-form" action="/submit" method="post">
+      <input type="text" name="test">
+      <button type="submit">Submit</button>
+    </form>
+
+    <script
+      src="/dist/script.js"
+      data-debug="true"
+      data-extra-params="gclid,fbclid,campaign_id"
+    ></script>
+  </body>
+</html>
