@@ -1,4 +1,4 @@
-#Node.js and Playwright
+# Node.js and Playwright
 node_modules/
 /test-results/
 /playwright-report/
@@ -7,5 +7,5 @@ node_modules/
 /playwright/.auth/
 
 # Generated minified files
-script-builder/*.min.js
-script-builder/*.min.css
+public/**/*.min.js
+public/**/*.min.css

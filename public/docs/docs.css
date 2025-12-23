@@ -1,0 +1,216 @@
+/* ========================================
+   Documentation Styles
+   ======================================== */
+
+.docs-main {
+  padding-bottom: 4rem;
+}
+
+/* Layout */
+.docs-layout {
+  display: grid;
+  gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .docs-layout {
+    grid-template-columns: 220px 1fr;
+    gap: 4rem;
+  }
+}
+
+/* Sidebar */
+.docs-sidebar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .docs-sidebar {
+    display: block;
+    position: sticky;
+    top: 2rem;
+    align-self: start;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}
+
+.docs-nav-section {
+  margin-bottom: 1.5rem;
+}
+
+.docs-nav-section:last-child {
+  margin-bottom: 0;
+}
+
+.docs-nav-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  margin-bottom: 0.5rem;
+}
+
+.docs-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.docs-nav-list li {
+  margin-bottom: 0.125rem;
+}
+
+.docs-nav-list a {
+  display: block;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.docs-nav-list a:hover {
+  color: var(--foreground);
+  background-color: var(--accent);
+}
+
+.docs-nav-list a.active {
+  color: var(--foreground);
+  background-color: var(--accent);
+  font-weight: 500;
+}
+
+/* Content */
+.docs-content {
+  max-width: 720px;
+}
+
+.docs-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.75rem;
+}
+
+.docs-intro {
+  font-size: 1.125rem;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+/* Sections */
+.docs-section {
+  margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.docs-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.docs-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem;
+  scroll-margin-top: 2rem;
+}
+
+.docs-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.docs-section p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.docs-section ul,
+.docs-section ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.docs-section li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+/* Tables */
+.docs-table-wrapper {
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.docs-table th,
+.docs-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.docs-table th {
+  font-weight: 600;
+  background-color: hsl(from var(--muted) h s l / 0.3);
+}
+
+.docs-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Callouts */
+.docs-callout {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.docs-callout-warning {
+  background-color: hsl(45 93% 47% / 0.1);
+  border: 1px solid hsl(45 93% 47% / 0.3);
+  color: hsl(45 93% 30%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .docs-callout-warning {
+    background-color: hsl(45 93% 47% / 0.1);
+    border-color: hsl(45 93% 47% / 0.2);
+    color: hsl(45 93% 70%);
+  }
+}
+
+:root[data-theme="dark"] .docs-callout-warning {
+  background-color: hsl(45 93% 47% / 0.1);
+  border-color: hsl(45 93% 47% / 0.2);
+  color: hsl(45 93% 70%);
+}
+
+:root[data-theme="light"] .docs-callout-warning {
+  background-color: hsl(45 93% 47% / 0.1);
+  border-color: hsl(45 93% 47% / 0.3);
+  color: hsl(45 93% 30%);
+}
+
+.docs-callout strong {
+  font-weight: 600;
+}

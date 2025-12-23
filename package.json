@@ -1,13 +1,13 @@
 {
   "name": "form-attribution",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Automatically capture and persist marketing attribution data in your web forms.",
   "homepage": "https://github.com/flash-brew-digital/form-attribution#readme",
   "sideEffects": false,
   "type": "module",
-  "main": "dist/script.js",
+  "main": "dist/script.min.js",
   "files": [
-    "dist/script.js"
+    "dist/script.min.js"
   ],
   "repository": {
     "type": "git",
@@ -31,7 +31,8 @@
     "url": "https://github.com/flash-brew-digital/form-attribution/issues"
   },
   "scripts": {
-    "release": "npm publish --access public",
+    "build": "mkdir -p dist && npx terser src/script.js -o dist/script.min.js",
+    "release": "pnpm build && npm publish --access public",
     "check": "npx ultracite check",
     "fix": "npx ultracite fix",
     "test": "npx playwright test"

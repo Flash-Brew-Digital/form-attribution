@@ -7,7 +7,7 @@ import { expect, test } from "@playwright/test";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const SCRIPT_SOURCE = fs.readFileSync(
-  path.join(__dirname, "..", "dist", "script.js"),
+  path.join(__dirname, "..", "src", "script.js"),
   "utf8"
 );
 
@@ -72,7 +72,7 @@ test.describe("Storage Adapters", () => {
       // Add script with localStorage config
       await page.evaluate(() => {
         const script = document.createElement("script");
-        script.src = "/dist/script.js";
+        script.src = "/src/script.js";
         script.dataset.storage = "localStorage";
         script.dataset.debug = "true";
         document.body.appendChild(script);
@@ -151,7 +151,7 @@ test.describe("Storage Adapters", () => {
       // Add script with custom storage key
       await page.evaluate(() => {
         const script = document.createElement("script");
-        script.src = "/dist/script.js";
+        script.src = "/src/script.js";
         script.dataset.storageKey = "my_custom_attribution";
         script.dataset.debug = "true";
         document.body.appendChild(script);

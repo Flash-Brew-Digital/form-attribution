@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Form Attribution JS</title>
+    <title>Script Builder - Form Attribution JS</title>
 
     <meta
       name="description"
-      content="Automatically capture and persist marketing attribution data in your web forms."
+      content="Build your custom Form Attribution script. Configure UTM parameters, click IDs, storage options, and generate production-ready code."
     >
 
     <meta name="author" content="Flash Brew Digital / Ben Sabic">
@@ -17,13 +17,13 @@
     <meta property="og:locale" content="en_US">
     <meta
       property="og:url"
-      content="https://form-attribution.flashbrew.digital"
+      content="https://form-attribution.flashbrew.digital/builder"
     >
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Form Attribution JS">
+    <meta property="og:title" content="Script Builder - Form Attribution JS">
     <meta
       property="og:description"
-      content="Automatically capture and persist marketing attribution data in your web forms."
+      content="Build your custom Form Attribution script. Configure UTM parameters, click IDs, storage options, and generate production-ready code."
     >
     <meta
       property="og:image"
@@ -45,19 +45,19 @@
     <meta property="twitter:domain" content="flashbrew.digital">
     <meta
       property="twitter:url"
-      content="https://form-attribution.flashbrew.digital"
+      content="https://form-attribution.flashbrew.digital/builder"
     >
-    <meta name="twitter:title" content="Form Attribution JS">
+    <meta name="twitter:title" content="Script Builder - Form Attribution JS">
     <meta
       name="twitter:description"
-      content="Automatically capture and persist marketing attribution data in your web forms."
+      content="Build your custom Form Attribution script. Configure UTM parameters, click IDs, storage options, and generate production-ready code."
     >
     <meta
       name="twitter:image"
       content="https://form-attribution.flashbrew.digital/opengraph-image.png"
     >
 
-    <link rel="stylesheet" href="style.min.css" fetchpriority="high">
+    <link rel="stylesheet" href="../style.min.css" fetchpriority="high">
 
     <link
       id="hljs-theme-light"
@@ -100,10 +100,42 @@
     <header class="header">
       <div class="container">
         <div class="header-content">
-          <div class="logo">
+          <a href="/" class="logo">
             <span class="logo-text">Form Attribution</span>
-          </div>
+          </a>
           <div class="header-actions">
+            <nav class="header-nav" aria-label="Primary">
+              <a href="/docs" class="nav-link">Docs</a>
+              <a href="/builder" class="nav-link nav-link-active"> Builder </a>
+            </nav>
+            <span class="header-separator" aria-hidden="true"></span>
+            <a
+              class="btn btn-link"
+              href="https://github.com/flash-brew-digital/form-attribution"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View the Form Attribution project on GitHub"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M9 19c-5 1.5-5-2.5-7-3"/>
+                <path
+                  d="M16 22v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                />
+              </svg>
+              View on GitHub
+            </a>
+            <span class="header-separator" aria-hidden="true"></span>
             <div class="header-theme">
               <span class="sr-only" id="theme-label">Toggle color theme</span>
               <label class="switch switch-theme">
@@ -157,33 +189,6 @@
                 </span>
               </label>
             </div>
-            <span class="header-separator" aria-hidden="true"></span>
-            <a
-              class="btn btn-link"
-              href="https://github.com/flash-brew-digital/form-attribution"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View the Form Attribution project on GitHub"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M9 19c-5 1.5-5-2.5-7-3"/>
-                <path
-                  d="M16 22v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
-                />
-              </svg>
-              View on GitHub
-            </a>
           </div>
         </div>
       </div>
@@ -288,6 +293,19 @@
                   <label class="label">Options</label>
                   <div class="switch-wrapper">
                     <div>
+                      <div class="switch-label">Track Click IDs</div>
+                      <div class="switch-description">
+                        Capture ad platform click IDs (e.g., Google Ads, Meta
+                        Ads)
+                      </div>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" id="track-click-ids">
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                  <div class="switch-wrapper">
+                    <div>
                       <div class="switch-label">Debug Mode</div>
                       <div class="switch-description">
                         Enable console logging
@@ -295,6 +313,18 @@
                     </div>
                     <label class="switch">
                       <input type="checkbox" id="debug-mode">
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                  <div class="switch-wrapper">
+                    <div>
+                      <div class="switch-label">Respect Privacy Signals</div>
+                      <div class="switch-description">
+                        Honor GPC and Do Not Track browser signals
+                      </div>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" id="respect-privacy" checked>
                       <span class="switch-slider"></span>
                     </label>
                   </div>
@@ -691,11 +721,37 @@
       </div>
     </main>
 
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-card">
+          <div class="footer-content">
+            <p class="footer-text">
+              Built by
+              <a
+                href="https://bensabic.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Ben Sabic</a
+              >
+              at
+              <a
+                href="https://flashbrew.digital"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Flash Brew Digital</a
+              >
+            </p>
+            <p class="footer-text">Open Source (Apache-2.0)</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"
     ></script>
-
-    <script defer src="script.min.js"></script>
+    <script defer src="../theme.min.js"></script>
+    <script defer src="builder.min.js"></script>
   </body>
 </html>

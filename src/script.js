@@ -1,15 +1,18 @@
+const STORAGE_KEY_REGEX = /^[a-zA-Z0-9_-]+$/;
+const FIELD_PREFIX_REGEX = /^[a-zA-Z0-9_-]*$/;
+const COOKIE_PATH_INVALID_REGEX = /[;\s]/;
+const SELECTOR_VALID_REGEX = /^[a-zA-Z0-9._#[\]="':\s,>+~-]*$/;
+
 (() => {
   const SCRIPT_ELEMENT =
     document.currentScript ??
-    [...document.scripts]
-      .reverse()
-      .find((s) => {
-        const src = s.getAttribute("src") || "";
-        return (
-          src.includes("cdn.jsdelivr.net/npm/form-attribution@") &&
-          src.endsWith("/dist/script.min.js")
-        );
-      }) ??
+    [...document.scripts].reverse().find((s) => {
+      const src = s.getAttribute("src") || "";
+      return (
+        src.includes("cdn.jsdelivr.net/npm/form-attribution@") &&
+        src.endsWith("/dist/script.min.js")
+      );
+    }) ??
     null;
 
   const DEFAULT_PARAMS = [
@@ -29,6 +32,15 @@
     "first_touch_timestamp",
   ];
 
+  const CLICK_ID_PARAMS = [
+    "gclid",
+    "fbclid",
+    "msclkid",
+    "ttclid",
+    "li_fat_id",
+    "twclid",
+  ];
+
   const VALID_STORAGE_TYPES = ["sessionStorage", "localStorage", "cookie"];
   const VALID_SAMESITE_VALUES = ["lax", "strict", "none"];
   const MAX_COOKIE_SIZE = 4000;
@@ -40,7 +52,11 @@
     if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
       const safe = Object.create(null);
       for (const key of Object.keys(parsed)) {
-        if (key !== "__proto__" && key !== "constructor" && key !== "prototype") {
+        if (
+          key !== "__proto__" &&
+          key !== "constructor" &&
+          key !== "prototype"
+        ) {
           safe[key] = parsed[key];
         }
       }
@@ -51,24 +67,31 @@
 
   const sanitizeValue = (val) => {
     return String(val).replace(/[<>'"]/g, (char) => {
-      const entities = { "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" };
+      const entities = {
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;",
+      };
       return entities[char];
     });
   };
 
   const validateStorageKey = (key) => {
     const safeKey = String(key ?? "form_attribution_data").trim();
-    return /^[a-zA-Z0-9_-]+$/.test(safeKey) ? safeKey : "form_attribution_data";
+    return STORAGE_KEY_REGEX.test(safeKey) ? safeKey : "form_attribution_data";
   };
 
   const validateFieldPrefix = (prefix) => {
     const safePrefix = String(prefix ?? "").trim();
-    return /^[a-zA-Z0-9_-]*$/.test(safePrefix) ? safePrefix : "";
+    return FIELD_PREFIX_REGEX.test(safePrefix) ? safePrefix : "";
   };
 
   const validateCookiePath = (path) => {
     const safePath = String(path ?? "/").trim();
-    return safePath.startsWith("/") && !/[;\s]/.test(safePath) ? safePath : "/";
+    return safePath.startsWith("/") && !COOKIE_PATH_INVALID_REGEX.test(safePath)
+      ? safePath
+      : "/";
   };
 
   const validateExcludeForms = (selector) => {
@@ -76,7 +99,7 @@
       return "";
     }
     const safe = String(selector ?? "").trim();
-    if (!/^[a-zA-Z0-9._#\[\]="':\s,>+~-]*$/.test(safe)) {
+    if (!SELECTOR_VALID_REGEX.test(safe)) {
       return "";
     }
     return safe;
@@ -96,7 +119,7 @@
     if (safeDomain === currentHost) {
       return safeDomain;
     }
-    if (currentHost.endsWith("." + safeDomain)) {
+    if (currentHost.endsWith(`.${safeDomain}`)) {
       return safeDomain;
     }
 
@@ -147,12 +170,18 @@
       excludeForms: validateExcludeForms(dataset.excludeForms),
       debug: dataset.debug === "true",
       storageKey: validateStorageKey(dataset.storageKey),
+      respectPrivacy: dataset.privacy !== "false",
+      trackClickIds: dataset.clickIds === "true",
     };
   };
 
   const CONFIG = getConfig();
   const TRACKED_PARAMS = [
-    ...new Set([...DEFAULT_PARAMS, ...CONFIG.extraParams]),
+    ...new Set([
+      ...DEFAULT_PARAMS,
+      ...(CONFIG.trackClickIds ? CLICK_ID_PARAMS : []),
+      ...CONFIG.extraParams,
+    ]),
   ];
   const PARAMS_TO_INJECT = [...new Set([...TRACKED_PARAMS, ...META_PARAMS])];
 
@@ -837,7 +866,7 @@
   };
 
   const run = async () => {
-    if (isPrivacySignalEnabled()) {
+    if (CONFIG.respectPrivacy && isPrivacySignalEnabled()) {
       log("Tracking disabled due to privacy signal (GPC/DNT)");
       return;
     }

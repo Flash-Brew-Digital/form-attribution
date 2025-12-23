@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+      Form Attribution JS - Capture Marketing Attribution in Web Forms
+    </title>
+
+    <meta
+      name="description"
+      content="Automatically capture and persist marketing attribution data (UTM parameters, click IDs, referrer) in your web forms. Zero dependencies, privacy-respecting."
+    >
+
+    <meta name="author" content="Flash Brew Digital / Ben Sabic">
+
+    <meta property="og:site_name" content="Form Attribution JS">
+    <meta property="og:locale" content="en_US">
+    <meta
+      property="og:url"
+      content="https://form-attribution.flashbrew.digital"
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Form Attribution JS">
+    <meta
+      property="og:description"
+      content="Automatically capture and persist marketing attribution data in your web forms."
+    >
+    <meta
+      property="og:image"
+      content="https://form-attribution.flashbrew.digital/opengraph-image.png"
+    >
+    <meta
+      property="og:image:secure_url"
+      content="https://form-attribution.flashbrew.digital/opengraph-image.png"
+    >
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta
+      property="og:image:alt"
+      content="The text 'Form Attribution' in large white letters on a dark background with code-like shapes and patterns."
+    >
+    <meta property="og:image:type" content="image/png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="flashbrew.digital">
+    <meta
+      property="twitter:url"
+      content="https://form-attribution.flashbrew.digital"
+    >
+    <meta name="twitter:title" content="Form Attribution JS">
+    <meta
+      name="twitter:description"
+      content="Automatically capture and persist marketing attribution data in your web forms."
+    >
+    <meta
+      name="twitter:image"
+      content="https://form-attribution.flashbrew.digital/opengraph-image.png"
+    >
+
+    <link rel="stylesheet" href="style.min.css" fetchpriority="high">
+    <link rel="stylesheet" href="index.min.css">
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="/" class="logo">
+            <span class="logo-text">Form Attribution</span>
+          </a>
+          <div class="header-actions">
+            <nav class="header-nav" aria-label="Primary">
+              <a href="/docs" class="nav-link">Docs</a>
+              <a href="/builder" class="nav-link">Builder</a>
+            </nav>
+            <span class="header-separator" aria-hidden="true"></span>
+            <a
+              class="btn btn-link"
+              href="https://github.com/flash-brew-digital/form-attribution"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View the Form Attribution project on GitHub"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M9 19c-5 1.5-5-2.5-7-3"/>
+                <path
+                  d="M16 22v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                />
+              </svg>
+              View on GitHub
+            </a>
+            <span class="header-separator" aria-hidden="true"></span>
+            <div class="header-theme">
+              <span class="sr-only" id="theme-label">Toggle color theme</span>
+              <label class="switch switch-theme">
+                <input
+                  type="checkbox"
+                  id="theme-toggle"
+                  aria-labelledby="theme-label"
+                >
+                <span class="switch-slider" aria-hidden="true">
+                  <span class="switch-theme-thumb"></span>
+                  <span class="switch-theme-icons">
+                    <svg
+                      class="switch-theme-icon switch-theme-icon-sun"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="4"/>
+                      <path d="M12 2v2"/>
+                      <path d="M12 20v2"/>
+                      <path d="m4.93 4.93 1.41 1.41"/>
+                      <path d="m17.66 17.66 1.41 1.41"/>
+                      <path d="M2 12h2"/>
+                      <path d="M20 12h2"/>
+                      <path d="m6.34 17.66-1.41 1.41"/>
+                      <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                    <svg
+                      class="switch-theme-icon switch-theme-icon-moon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                  </span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <h1 class="hero-title">
+              Capture marketing attribution
+              <span class="hero-title-accent">automatically.</span>
+            </h1>
+            <p class="hero-description">
+              A lightweight, zero-dependency script that automatically captures
+              UTM parameters, ad click IDs, and referrer data and passes them
+              into your forms as hidden fields.
+            </p>
+            <div class="hero-actions">
+              <a href="/builder" class="btn btn-primary">
+                Build Your Script
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14"/>
+                  <path d="m12 5 7 7-7 7"/>
+                </svg>
+              </a>
+              <a href="/docs" class="btn btn-secondary">Read the Docs</a>
+            </div>
+          </div>
+          <div class="hero-code">
+            <div class="code-block">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span class="code-dot"></span>
+                  <span class="code-dot"></span>
+                  <span class="code-dot"></span>
+                </div>
+                <button
+                  type="button"
+                  class="code-copy-btn"
+                  aria-label="Copy code to clipboard"
+                >
+                  <svg
+                    class="code-copy-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                    <path
+                      d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                    />
+                  </svg>
+                  <svg
+                    class="code-check-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M20 6 9 17l-5-5"/>
+                  </svg>
+                </button>
+              </div>
+              <pre
+              ><code class="language-html"><span class="hljs-comment">&lt;!-- [Form Attribution] --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/form-attribution@latest/dist/script.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-card">
+          <div class="footer-content">
+            <p class="footer-text">
+              Built by
+              <a
+                href="https://bensabic.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Ben Sabic</a
+              >
+              at
+              <a
+                href="https://flashbrew.digital"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Flash Brew Digital</a
+              >
+            </p>
+            <p class="footer-text">Open Source (Apache-2.0)</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"
+    ></script>
+    <script defer src="theme.min.js"></script>
+    <script>
+    "use strict";
+    document.addEventListener("DOMContentLoaded", () => {
+      const copyBtn = document.querySelector(".code-copy-btn");
+      const code = document.querySelector(".hero-code code");
+      if (copyBtn && code) {
+        copyBtn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(code.textContent);
+            copyBtn.classList.add("copied");
+            setTimeout(() => copyBtn.classList.remove("copied"), 2000);
+          } catch (err) {
+            console.error("Failed to copy:", err);
+          }
+        });
+      }
+    });
+    </script>
+  </body>
+</html>

@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "script-builder/**"
+      - "public/**"
   workflow_dispatch:
 
 concurrency:
@@ -27,15 +27,21 @@ jobs:
           node-version: 24
 
       - name: Minify JavaScript
-        run: npx terser script-builder/script.js -o script-builder/script.min.js
+        run: |
+          find public -name "*.js" -type f | while read file; do
+            npx terser "$file" -o "${file%.js}.min.js"
+          done
 
       - name: Minify CSS
-        run: npx clean-css-cli -o script-builder/style.min.css script-builder/style.css
+        run: |
+          find public -name "*.css" -type f | while read file; do
+            npx clean-css-cli -o "${file%.css}.min.css" "$file"
+          done
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: script-builder
+          path: public
 
   deploy:
     needs: build

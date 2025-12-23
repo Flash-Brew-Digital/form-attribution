@@ -1,11 +1,11 @@
 # Form Attribution
 
-Automatically capture and persist marketing attribution parameters (UTM tags, referrer data, landing pages) and inject them into HTML forms as hidden fields.
+A lightweight, zero-dependency script that automatically captures UTM parameters, ad click IDs, and referrer data and passes them into your forms as hidden fields.
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE.md)
 [![npm version](https://img.shields.io/npm/v/form-attribution.svg)](https://www.npmjs.com/package/form-attribution)
 
-**[Try the Script Builder](https://form-attribution.flashbrew.digital)** - Generate a configured script tag with a visual interface.
+**[Try the Script Builder](https://form-attribution.flashbrew.digital/builder)** | **[View Documentation](https://form-attribution.flashbrew.digital/docs)**
 
 ## Features
 
@@ -58,17 +58,28 @@ That's it! The script will automatically:
 
 | Parameter | Description |
 |-----------|-------------|
-| `landing_page` | First page URL visited (without query string) |
-| `current_page` | Current page URL (without query string) |
+| `landing_page` | First page URL visited |
+| `current_page` | Current page URL (when form is submitted) |
 | `referrer_url` | Document referrer |
 | `first_touch_timestamp` | ISO 8601 timestamp of first visit |
+
+### Click ID Parameters (when `data-click-ids="true"`)
+
+| Parameter | Platform |
+|-----------|----------|
+| `gclid` | Google Ads |
+| `fbclid` | Meta Ads |
+| `msclkid` | Microsoft Advertising |
+| `ttclid` | TikTok Ads |
+| `li_fat_id` | LinkedIn Ads |
+| `twclid` | Twitter/X Ads |
 
 ## Configuration
 
 Configure the script using `data-*` attributes on the script tag:
 
 ```html
-<script src="/dist/script.js"
+<script src="/dist/script.min.js"
   data-storage="sessionStorage"
   data-field-prefix="attr_"
   data-extra-params="gclid,fbclid"
@@ -87,6 +98,8 @@ Configure the script using `data-*` attributes on the script tag:
 | `data-exclude-forms` | `""` | CSS selector for forms to exclude from injection |
 | `data-storage-key` | `form_attribution_data` | Custom key name for stored data |
 | `data-debug` | `false` | Enable console logging |
+| `data-privacy` | `true` | Set to `"false"` to disable GPC/DNT privacy signal detection |
+| `data-click-ids` | `false` | Set to `"true"` to automatically capture ad platform click IDs |
 
 ### Cookie Options
 
@@ -101,18 +114,10 @@ When using `data-storage="cookie"`:
 
 ## Usage Examples
 
-### Capture Google and Facebook Click IDs
-
-```html
-<script src="/dist/script.js"
-  data-extra-params="gclid,fbclid,msclkid">
-</script>
-```
-
 ### Use localStorage for Longer Persistence
 
 ```html
-<script src="/dist/script.js"
+<script src="/dist/script.min.js"
   data-storage="localStorage">
 </script>
 ```
@@ -120,7 +125,7 @@ When using `data-storage="cookie"`:
 ### Use Cookies for Cross-Subdomain Tracking
 
 ```html
-<script src="/dist/script.js"
+<script src="/dist/script.min.js"
   data-storage="cookie"
   data-cookie-domain=".example.com"
   data-cookie-expires="90">
@@ -130,7 +135,7 @@ When using `data-storage="cookie"`:
 ### Exclude Specific Forms
 
 ```html
-<script src="/dist/script.js"
+<script src="/dist/script.min.js"
   data-exclude-forms=".login-form, [data-no-attribution]">
 </script>
 ```
@@ -138,12 +143,10 @@ When using `data-storage="cookie"`:
 ### Add Field Prefix for CRM Compatibility
 
 ```html
-<script src="/dist/script.js"
+<script src="/dist/script.min.js"
   data-field-prefix="lead_">
 </script>
 ```
-
-This creates fields like `lead_utm_source`, `lead_utm_medium`, etc.
 
 ## Script Builder
 
@@ -166,7 +169,7 @@ The script respects user privacy preferences:
 - **Global Privacy Control (GPC)** - Disables tracking when `navigator.globalPrivacyControl` is true
 - **Do Not Track (DNT)** - Disables tracking when DNT is enabled
 
-When privacy signals are detected, no data is captured or stored.
+When privacy signals are detected, no data is captured or stored. You can override this behavior by setting `data-privacy="false"` on the script tag.
 
 ## Injected Fields
 
@@ -219,6 +222,6 @@ The script uses standard browser APIs with graceful fallbacks:
 
 [Apache-2.0](LICENSE.md)
 
-## Author
+---
 
-[Ben Sabic](https://bensabic.ca)
+Built by [Ben Sabic](https://bensabic.ca) | [GitHub](https://github.com/Flash-Brew-Digital/form-attribution)

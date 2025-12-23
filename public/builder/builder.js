@@ -10,6 +10,8 @@ const state = {
   fieldPrefix: "",
   storageKey: "",
   debug: false,
+  respectPrivacy: true,
+  trackClickIds: false,
 };
 
 const elements = {
@@ -22,6 +24,8 @@ const elements = {
   fieldPrefix: document.getElementById("field-prefix"),
   storageKey: document.getElementById("storage-key"),
   debugMode: document.getElementById("debug-mode"),
+  respectPrivacy: document.getElementById("respect-privacy"),
+  trackClickIds: document.getElementById("track-click-ids"),
 
   // Pill Inputs
   extraParamsContainer: document.getElementById("extra-params-container"),
@@ -36,11 +40,6 @@ const elements = {
   codeExpandBtn: document.getElementById("code-expand-btn"),
   copyBtn: document.getElementById("copy-btn"),
   copyStatus: document.getElementById("copy-status"),
-
-  // Theme
-  themeToggle: document.getElementById("theme-toggle"),
-  hljsThemeLight: document.getElementById("hljs-theme-light"),
-  hljsThemeDark: document.getElementById("hljs-theme-dark"),
 
   // Templates
   pillTemplate: document.getElementById("pill-template"),
@@ -123,6 +122,14 @@ const generateScriptTag = () => {
     attributes.push('data-debug="true"');
   }
 
+  if (!state.respectPrivacy) {
+    attributes.push('data-privacy="false"');
+  }
+
+  if (state.trackClickIds) {
+    attributes.push('data-click-ids="true"');
+  }
+
   if (isMultiline) {
     return `<script\n  ${attributes.join("\n  ")}\n>${scriptCloseTag}`;
   }
@@ -147,160 +154,6 @@ const updateCodeOutput = () => {
   const code = generateScriptTag();
   elements.codeOutput.textContent = code;
   highlightCodeOutput();
-};
-
-const THEME_STORAGE_KEY = "fa_sb_theme";
-
-const getSystemTheme = () => {
-  try {
-    return window.matchMedia?.("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  } catch {
-    return "light";
-  }
-};
-
-const getStoredTheme = () => {
-  try {
-    const raw = localStorage.getItem(THEME_STORAGE_KEY);
-    return raw === "dark" || raw === "light" ? raw : null;
-  } catch {
-    return null;
-  }
-};
-
-const setStoredTheme = (theme) => {
-  try {
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
-  } catch {
-    // ignore
-  }
-};
-
-const applyTheme = (theme) => {
-  document.documentElement.dataset.theme = theme;
-
-  if (elements.themeToggle) {
-    elements.themeToggle.checked = theme === "dark";
-  }
-
-  if (elements.hljsThemeLight && elements.hljsThemeDark) {
-    elements.hljsThemeLight.disabled = theme === "dark";
-    elements.hljsThemeDark.disabled = theme !== "dark";
-  }
-};
-
-const animateThemeToggle = (theme) => {
-  if (!window.gsap) {
-    return;
-  }
-
-  const isDark = theme === "dark";
-  const switchEl = elements.themeToggle.closest(".switch");
-  const thumb = switchEl.querySelector(".switch-theme-thumb");
-  const sunIcon = switchEl.querySelector(".switch-theme-icon-sun");
-  const moonIcon = switchEl.querySelector(".switch-theme-icon-moon");
-
-  const thumbBg = isDark ? "hsl(0, 0%, 98%)" : "hsl(240, 5.9%, 10%)";
-  const sunColor = "hsl(0, 0%, 98%)";
-  const moonColor = "hsl(240, 5.9%, 10%)";
-  const inactiveColor = "hsl(240, 3.8%, 46.1%)";
-
-  // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
-  gsap.to(thumb, {
-    x: isDark ? "100%" : "0%",
-    backgroundColor: thumbBg,
-    duration: 0.4,
-    ease: "power2.inOut",
-  });
-
-  // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
-  gsap.to(sunIcon, {
-    opacity: isDark ? 0.5 : 1,
-    color: isDark ? inactiveColor : sunColor, // White when active (Light mode)
-    duration: 0.4,
-  });
-
-  // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
-  gsap.to(moonIcon, {
-    opacity: isDark ? 1 : 0.5,
-    color: isDark ? moonColor : inactiveColor,
-    duration: 0.4,
-  });
-};
-
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Theme initialization requires multiple branches
-const initTheme = () => {
-  const stored = getStoredTheme();
-  const initial = stored || getSystemTheme();
-
-  applyTheme(initial);
-
-  if (window.gsap && elements.themeToggle) {
-    const isDark = initial === "dark";
-    const switchEl = elements.themeToggle.closest(".switch");
-    const thumb = switchEl.querySelector(".switch-theme-thumb");
-    const sunIcon = switchEl.querySelector(".switch-theme-icon-sun");
-    const moonIcon = switchEl.querySelector(".switch-theme-icon-moon");
-
-    const thumbBg = isDark ? "hsl(0, 0%, 98%)" : "hsl(240, 5.9%, 10%)";
-    const sunColor = "hsl(0, 0%, 98%)";
-    const moonColor = "hsl(240, 5.9%, 10%)";
-    const inactiveColor = "hsl(240, 3.8%, 46.1%)";
-
-    // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
-    gsap.set(thumb, {
-      x: isDark ? "100%" : "0%",
-      backgroundColor: thumbBg,
-    });
-    // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
-    gsap.set(sunIcon, {
-      opacity: isDark ? 0.5 : 1,
-      color: isDark ? inactiveColor : sunColor,
-    });
-    // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
-    gsap.set(moonIcon, {
-      opacity: isDark ? 1 : 0.5,
-      color: isDark ? moonColor : inactiveColor,
-    });
-  }
-
-  elements.themeToggle?.addEventListener("change", (e) => {
-    const next = e.target.checked ? "dark" : "light";
-    setStoredTheme(next);
-
-    applyTheme(next);
-
-    animateThemeToggle(next);
-
-    highlightCodeOutput();
-  });
-
-  if (stored) {
-    return;
-  }
-
-  try {
-    const mql = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = () => {
-      if (getStoredTheme()) {
-        return;
-      }
-      const next = mql.matches ? "dark" : "light";
-      applyTheme(next);
-      animateThemeToggle(next);
-      highlightCodeOutput();
-    };
-
-    if (typeof mql.addEventListener === "function") {
-      mql.addEventListener("change", handler);
-    } else if (typeof mql.addListener === "function") {
-      mql.addListener(handler);
-    }
-  } catch {
-    // ignore
-  }
 };
 
 let copyFeedbackTimeoutId = null;
@@ -640,6 +493,16 @@ const bindInputListeners = () => {
     state.debug = e.target.checked;
     updateCodeOutput();
   });
+
+  elements.respectPrivacy?.addEventListener("change", (e) => {
+    state.respectPrivacy = e.target.checked;
+    updateCodeOutput();
+  });
+
+  elements.trackClickIds?.addEventListener("change", (e) => {
+    state.trackClickIds = e.target.checked;
+    updateCodeOutput();
+  });
 };
 
 const bindCopyListeners = () => {
@@ -678,8 +541,15 @@ const initCodeExpandToggle = () => {
   });
 };
 
+const initThemeHighlightListener = () => {
+  const themeToggle = document.getElementById("theme-toggle");
+  themeToggle?.addEventListener("change", () => {
+    highlightCodeOutput();
+  });
+};
+
 const init = () => {
-  initTheme();
+  initThemeHighlightListener();
   initTabs();
   initAccordions();
   initCodeExpandToggle();

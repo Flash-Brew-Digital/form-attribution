@@ -1,0 +1,251 @@
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("JetBrainsMono.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ========================================
+   Homepage Styles
+   ======================================== */
+
+/* Hero Section */
+.hero {
+  padding: 4rem 0 0;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding: 6rem 0 0;
+  }
+}
+
+.hero-content {
+  max-width: 640px;
+}
+
+.hero-title {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-optical-sizing: auto;
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+}
+
+.hero-title-accent {
+  background: linear-gradient(
+    135deg,
+    hsl(240 5.9% 10%) 0%,
+    hsl(240 3.8% 46.1%) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-title-accent {
+    background: linear-gradient(
+      135deg,
+      hsl(0 0% 98%) 0%,
+      hsl(240 5% 64.9%) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+:root[data-theme="dark"] .hero-title-accent {
+  background: linear-gradient(135deg, hsl(0 0% 98%) 0%, hsl(240 5% 64.9%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:root[data-theme="light"] .hero-title-accent {
+  background: linear-gradient(
+    135deg,
+    hsl(240 5.9% 10%) 0%,
+    hsl(240 3.8% 46.1%) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-description {
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  font-size: 1.125rem;
+  font-style: normal;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.hero-code {
+  margin-top: 3rem;
+}
+
+.hero-code .code-block {
+  display: inline-block;
+  background-color: hsl(from var(--muted) h s l / 0.35);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: hsl(from var(--muted) h s l / 0.5);
+  border-bottom: 1px solid var(--border);
+}
+
+.code-dots {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.code-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--border);
+}
+
+.code-copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: calc(var(--radius) - 2px);
+  background-color: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.code-copy-btn:hover {
+  background-color: var(--accent);
+  color: var(--foreground);
+}
+
+.code-copy-btn .code-check-icon {
+  display: none;
+  color: hsl(142 70% 45%);
+}
+
+.code-copy-btn.copied .code-copy-icon {
+  display: none;
+}
+
+.code-copy-btn.copied .code-check-icon {
+  display: block;
+}
+
+.hero-code pre {
+  margin: 0;
+  padding: 1.25rem;
+}
+
+@media (max-width: 767px) {
+  .hero-code pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
+
+.hero-code code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+
+.hljs-comment {
+  color: var(--muted-foreground);
+}
+
+.hljs-tag {
+  color: var(--foreground);
+}
+
+.hljs-name {
+  color: hsl(220 90% 56%);
+}
+
+.hljs-attr {
+  color: hsl(280 65% 60%);
+}
+
+.hljs-string {
+  color: hsl(142 70% 35%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .hljs-name {
+    color: hsl(220 90% 70%);
+  }
+  .hljs-attr {
+    color: hsl(280 80% 75%);
+  }
+  .hljs-string {
+    color: hsl(142 60% 55%);
+  }
+}
+
+:root[data-theme="dark"] .hljs-name {
+  color: hsl(220 90% 70%);
+}
+:root[data-theme="dark"] .hljs-attr {
+  color: hsl(280 80% 75%);
+}
+:root[data-theme="dark"] .hljs-string {
+  color: hsl(142 60% 55%);
+}
+
+:root[data-theme="light"] .hljs-name {
+  color: hsl(220 90% 56%);
+}
+:root[data-theme="light"] .hljs-attr {
+  color: hsl(280 65% 60%);
+}
+:root[data-theme="light"] .hljs-string {
+  color: hsl(142 70% 35%);
+}
+
+.hero-actions .btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  text-decoration: none;
+}
