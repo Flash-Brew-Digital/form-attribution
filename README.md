@@ -1,34 +1,27 @@
 # Form Attribution
 
-A lightweight, zero-dependency script that automatically captures UTM parameters, ad click IDs, and referrer data and passes them into your forms as hidden fields.
+A lightweight, zero-dependency script that automatically captures and passes the referrer, UTM parameters, ad click IDs, and more to your forms as hidden fields.
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE.md)
 [![npm version](https://img.shields.io/npm/v/form-attribution.svg)](https://www.npmjs.com/package/form-attribution)
 
-**[Try the Script Builder](https://form-attribution.flashbrew.digital/builder)** | **[View Documentation](https://form-attribution.flashbrew.digital/docs)**
+**[Try the Script Builder](https://form-attribution.flashbrew.digital/builder?utm_source=github&utm_medium=referral&utm_campaign=readme)** |
+**[View Documentation](https://form-attribution.flashbrew.digital/docs?utm_source=github&utm_medium=referral&utm_campaign=readme)**
 
 ## Features
 
-- **Zero dependencies** - Self-contained script using only browser APIs
-- **Automatic capture** - Captures UTM parameters, referrer, landing page, and timestamps
-- **Persistent storage** - Stores attribution data across page visits with smart fallbacks
-- **Form injection** - Injects hidden fields into all forms automatically
-- **Dynamic form support** - Detects and injects into dynamically added forms via MutationObserver
-- **First-touch attribution** - Preserves initial attribution data across subsequent visits
-- **Privacy-respecting** - Honors Global Privacy Control (GPC) and Do Not Track (DNT) signals
-- **XSS-safe** - Sanitizes all values before injection
-
-## Installation
-
-### CDN
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/form-attribution@latest/dist/script.min.js"></script>
-```
+- **Zero dependencies** - Runs entirely on native browser APIs with no external libraries
+- **Automatic capture** - Records UTM parameters, referrer URL, landing page, timestamp and more without manual setup
+- **Persistent storage** - Maintains attribution data across sessions using intelligent storage fallbacks
+- **Form injection** - Automatically adds hidden fields to every form on the page
+- **Dynamic form support** - Monitors the DOM via MutationObserver to handle forms added after page load
+- **First-touch attribution** - Retains original attribution data even when users return later
+- **Privacy-respecting** - Complies with Global Privacy Control (GPC) and Do Not Track (DNT) preferences
+- **XSS-safe** - Sanitizes all injected values to prevent cross-site scripting attacks
 
 ## Quick Start
 
-Add the script to your HTML before the closing `</body>` tag:
+Add the script to your website before the closing `</body>`tag:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/form-attribution@latest/dist/script.min.js"></script>
@@ -36,8 +29,8 @@ Add the script to your HTML before the closing `</body>` tag:
 
 That's it! The script will automatically:
 
-1. Capture UTM parameters from the URL
-2. Store them in sessionStorage
+1. Capture common URL parameters and metadata (e.g. landing page)
+2. Store the data in the user's browser temporarily
 3. Inject hidden fields into all forms on the page
 
 ## Parameters Captured
@@ -59,7 +52,7 @@ That's it! The script will automatically:
 | Parameter | Description |
 |-----------|-------------|
 | `landing_page` | First page URL visited |
-| `current_page` | Current page URL (when form is submitted) |
+| `current_page` | Current page URL (where form was submitted) |
 | `referrer_url` | Document referrer |
 | `first_touch_timestamp` | ISO 8601 timestamp of first visit |
 
@@ -76,11 +69,11 @@ That's it! The script will automatically:
 
 ## Configuration
 
-Configure the script using `data-*` attributes on the script tag:
+Configure the script by adding optional data attributes to the script tag:
 
 ```html
 <script src="/dist/script.min.js"
-  data-storage="sessionStorage"
+  data-storage="localStorage"
   data-field-prefix="attr_"
   data-extra-params="gclid,fbclid"
   data-exclude-forms=".no-track"
@@ -150,11 +143,11 @@ When using `data-storage="cookie"`:
 
 ## Script Builder
 
-Use the interactive [Script Builder](https://form-attribution.flashbrew.digital) tool to generate a configured script tag with a visual interface.
+Use the interactive [Script Builder](https://form-attribution.flashbrew.digital/builder?utm_source=github&utm_medium=referral&utm_campaign=readme) tool to generate a configured script tag with a visual interface.
 
 ## Storage Fallback Chain
 
-The script uses intelligent fallback when storage is unavailable:
+The script uses intelligent fallbacks when a storage type isn't available:
 
 | Requested | Fallback Chain |
 |-----------|----------------|
@@ -164,7 +157,7 @@ The script uses intelligent fallback when storage is unavailable:
 
 ## Privacy
 
-The script respects user privacy preferences:
+By default, the script respects user privacy preferences:
 
 - **Global Privacy Control (GPC)** - Disables tracking when `navigator.globalPrivacyControl` is true
 - **Do Not Track (DNT)** - Disables tracking when DNT is enabled
@@ -211,12 +204,16 @@ pnpm fix                          # Auto-fix lint issues
 
 ## Browser Support
 
-The script uses standard browser APIs with graceful fallbacks:
+Built on standard browser APIs with graceful fallbacks for broad compatibility:
 
-- URL API for query parameter parsing
-- MutationObserver for dynamic form detection
-- Web Storage API (sessionStorage/localStorage)
-- CookieStore API with legacy `document.cookie` fallback
+- **URL API** — Parses query parameters
+- **MutationObserver** — Detects dynamically added forms
+- **Web Storage API** — Persists data via sessionStorage and localStorage
+- **CookieStore API** — Falls back to `document.cookie` for older 
+
+## Documentation
+
+Complete documentation is available at [https://form-attribution.flashbrew.digital/docs](https://form-attribution.flashbrew.digital/docs?utm_source=github&utm_medium=referral&utm_campaign=readme).
 
 ## License
 
@@ -224,4 +221,4 @@ The script uses standard browser APIs with graceful fallbacks:
 
 ---
 
-Built by [Ben Sabic](https://bensabic.ca) | [GitHub](https://github.com/Flash-Brew-Digital/form-attribution)
+Built by [Ben Sabic](https://bensabic.ca?utm_source=github&utm_medium=referral&utm_campaign=readme) at [Flash Brew Digital](https://flashbrew.digital?utm_source=github&utm_medium=referral&utm_campaign=readme) | [GitHub](https://github.com/Flash-Brew-Digital/form-attribution)
