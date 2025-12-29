@@ -1,9 +1,13 @@
-const STORAGE_KEY_REGEX = /^[a-zA-Z0-9_-]+$/;
-const FIELD_PREFIX_REGEX = /^[a-zA-Z0-9_-]*$/;
-const COOKIE_PATH_INVALID_REGEX = /[;\s]/;
-const SELECTOR_VALID_REGEX = /^[a-zA-Z0-9._#[\]="':\s,>+~-]*$/;
-
 (() => {
+  // biome-ignore lint/performance/useTopLevelRegex: IIFE runs once, regex is effectively top-level
+  const STORAGE_KEY_REGEX = /^[a-zA-Z0-9_-]+$/;
+  // biome-ignore lint/performance/useTopLevelRegex: IIFE runs once, regex is effectively top-level
+  const FIELD_PREFIX_REGEX = /^[a-zA-Z0-9_-]*$/;
+  // biome-ignore lint/performance/useTopLevelRegex: IIFE runs once, regex is effectively top-level
+  const COOKIE_PATH_INVALID_REGEX = /[;\s]/;
+  // biome-ignore lint/performance/useTopLevelRegex: IIFE runs once, regex is effectively top-level
+  const SELECTOR_VALID_REGEX = /^[a-zA-Z0-9._#[\]="':\s,>+~-]*$/;
+
   const SCRIPT_ELEMENT =
     document.currentScript ??
     [...document.scripts].reverse().find((s) => {
