@@ -119,7 +119,7 @@
                   d="M16 22v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
                 />
               </svg>
-              View on GitHub
+              <span class="btn-text">View on GitHub</span>
             </a>
             <span class="header-separator" aria-hidden="true"></span>
             <div class="header-theme">
@@ -1504,6 +1504,95 @@ FormAttribution.off('onCapture', myHandler);</code></pre>
         </div>
       </div>
     </footer>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" data-state="closed">
+      <div class="mobile-nav-overlay"></div>
+      <div class="mobile-nav-sheet">
+        <div class="mobile-nav-header">
+          <span class="mobile-nav-title">Navigation</span>
+          <button
+            type="button"
+            class="mobile-nav-close"
+            aria-label="Close navigation"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M18 6 6 18"/>
+              <path d="m6 6 12 12"/>
+            </svg>
+          </button>
+        </div>
+        <nav class="mobile-nav-content">
+          <div class="docs-nav-section">
+            <h3 class="docs-nav-title">Getting Started</h3>
+            <ul class="docs-nav-list">
+              <li>
+                <a href="#quick-start">Quick Start</a>
+              </li>
+            </ul>
+          </div>
+          <div class="docs-nav-section">
+            <h3 class="docs-nav-title">Configuration</h3>
+            <ul class="docs-nav-list">
+              <li>
+                <a href="#attributes">Data Attributes</a>
+              </li>
+              <li>
+                <a href="#storage">Storage Options</a>
+              </li>
+              <li>
+                <a href="#cookies">Cookie Settings</a>
+              </li>
+              <li>
+                <a href="#privacy">Privacy Controls</a>
+              </li>
+              <li>
+                <a href="#click-ids">Click ID Tracking</a>
+              </li>
+            </ul>
+          </div>
+          <div class="docs-nav-section">
+            <h3 class="docs-nav-title">Developer Tools</h3>
+            <ul class="docs-nav-list">
+              <li>
+                <a href="#debug-panel">Debug Panel</a>
+              </li>
+              <li>
+                <a href="#javascript-api">JavaScript API</a>
+              </li>
+            </ul>
+          </div>
+          <div class="docs-nav-section">
+            <h3 class="docs-nav-title">Reference</h3>
+            <ul class="docs-nav-list">
+              <li>
+                <a href="#parameters">Captured Parameters</a>
+              </li>
+              <li>
+                <a href="#injected-fields">Injected Fields</a>
+              </li>
+              <li>
+                <a href="#fallbacks">Storage Fallbacks</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <button type="button" class="mobile-nav-trigger" aria-label="Open navigation menu">
+        <span>Menu</span>
+      </button>
+    </div>
 
     <script
       defer

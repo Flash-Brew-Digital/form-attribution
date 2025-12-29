@@ -1,6 +1,8 @@
 function initDocsNavigation() {
   const sections = document.querySelectorAll(".docs-section");
-  const navLinks = document.querySelectorAll(".docs-nav-list a");
+  const navLinks = document.querySelectorAll(
+    ".docs-sidebar .docs-nav-list a, .mobile-nav .docs-nav-list a"
+  );
 
   if (sections.length === 0 || navLinks.length === 0) {
     return;
@@ -116,6 +118,46 @@ function initOpenInChat() {
   }
 }
 
+function initMobileNav() {
+  const mobileNav = document.querySelector(".mobile-nav");
+  if (!mobileNav) {
+    return;
+  }
+
+  const trigger = mobileNav.querySelector(".mobile-nav-trigger");
+  const closeBtn = mobileNav.querySelector(".mobile-nav-close");
+  const overlay = mobileNav.querySelector(".mobile-nav-overlay");
+  const navLinks = mobileNav.querySelectorAll(".docs-nav-list a");
+
+  const toggle = (open) => {
+    const isOpen = open ?? mobileNav.dataset.state !== "open";
+    mobileNav.dataset.state = isOpen ? "open" : "closed";
+    document.body.classList.toggle("mobile-nav-open", isOpen);
+
+    if (isOpen) {
+      closeBtn?.focus();
+    } else {
+      trigger?.focus();
+    }
+  };
+
+  trigger?.addEventListener("click", () => toggle(true));
+  closeBtn?.addEventListener("click", () => toggle(false));
+  overlay?.addEventListener("click", () => toggle(false));
+
+  // Close on nav link click
+  for (const link of navLinks) {
+    link.addEventListener("click", () => toggle(false));
+  }
+
+  // Close on Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && mobileNav.dataset.state === "open") {
+      toggle(false);
+    }
+  });
+}
+
 function initCopyButtons() {
   // Add styles for copy button
   const style = document.createElement("style");
@@ -197,6 +239,7 @@ function initCopyButtons() {
 const init = () => {
   initDocsNavigation();
   initOpenInChat();
+  initMobileNav();
   initCopyButtons();
 };
 

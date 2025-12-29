@@ -1075,7 +1075,7 @@ body {
 /* ========================================
        Responsive Adjustments
     ======================================== */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .input-group {
     grid-template-columns: 1fr;
   }
@@ -1088,5 +1088,14 @@ body {
   .header-actions {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .header-separator {
+    display: none;
+  }
+
+  /* Hide GitHub link on mobile */
+  .header-actions .btn-link {
+    display: none;
   }
 }

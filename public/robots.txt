@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://form-attribution.flashbrew.digital/sitemap.xml
