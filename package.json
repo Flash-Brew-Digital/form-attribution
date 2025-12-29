@@ -1,6 +1,6 @@
 {
   "name": "form-attribution",
-  "version": "2.0.0",
+  "version": "2.5.0",
   "description": "Automatically capture and persist marketing attribution data in your web forms.",
   "homepage": "https://github.com/flash-brew-digital/form-attribution#readme",
   "sideEffects": false,
