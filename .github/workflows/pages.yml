@@ -26,17 +26,11 @@ jobs:
         with:
           node-version: 24
 
-      - name: Minify JavaScript
-        run: |
-          find public -name "*.js" -type f | while read file; do
-            npx terser "$file" -o "${file%.js}.min.js"
-          done
+      - name: Install minification tools
+        run: npm install --no-save terser clean-css-cli
 
-      - name: Minify CSS
-        run: |
-          find public -name "*.css" -type f | while read file; do
-            npx clean-css-cli -o "${file%.css}.min.css" "$file"
-          done
+      - name: Minify assets
+        run: npm run minify-assets
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

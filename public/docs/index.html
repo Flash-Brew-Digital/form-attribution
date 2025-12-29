@@ -75,6 +75,12 @@
       defer
       src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"
     ></script>
+
+    <script
+      src="//instant.page/5.2.0"
+      type="module"
+      integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"
+    ></script>
   </head>
   <body>
     <header class="header">
@@ -205,6 +211,17 @@
                   </li>
                   <li>
                     <a href="#click-ids">Click ID Tracking</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="docs-nav-section">
+                <h3 class="docs-nav-title">Developer Tools</h3>
+                <ul class="docs-nav-list">
+                  <li>
+                    <a href="#debug-panel">Debug Panel</a>
+                  </li>
+                  <li>
+                    <a href="#javascript-api">JavaScript API</a>
                   </li>
                 </ul>
               </div>
@@ -746,7 +763,10 @@
                       <td>
                         <code>false</code>
                       </td>
-                      <td>Enable console logging</td>
+                      <td>
+                        Enable console logging and
+                        <a href="#debug-panel">debug panel</a>
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -991,6 +1011,278 @@
               </div>
             </section>
 
+            <!-- Debug Panel -->
+            <section id="debug-panel" class="docs-section">
+              <h2>Debug Panel</h2>
+              <p>
+                The debug panel provides a visual interface for inspecting
+                attribution data, viewing tracked forms, and monitoring activity
+                in real-time.
+              </p>
+
+              <h3>Enabling the Debug Panel</h3>
+              <p>
+                Add <code>data-debug="true"</code>to the script tag:
+              </p>
+              <div class="code-block mb-4">
+                <div class="code-content">
+                  <pre
+                  ><code class="language-html">&lt;script src="/dist/script.min.js" data-debug="true"&gt;&lt;/script&gt;</code></pre>
+                </div>
+              </div>
+
+              <h3>Features</h3>
+              <ul>
+                <li>
+                  <strong>Data Tab</strong>: View all captured UTM parameters
+                  and metadata
+                </li>
+                <li>
+                  <strong>Forms Tab</strong>: See all forms on the page and
+                  their injection status (click to highlight)
+                </li>
+                <li>
+                  <strong>Log Tab</strong>: Real-time activity log with
+                  timestamps
+                </li>
+                <li>
+                  <strong>Copy</strong>: Export attribution data as JSON to
+                  clipboard
+                </li>
+                <li>
+                  <strong>Clear</strong>: Remove all stored attribution data
+                </li>
+                <li>
+                  <strong>Refresh</strong>: Re-inject data into all forms
+                </li>
+              </ul>
+
+              <p>
+                The panel can be minimized, dragged to reposition, and its state
+                persists across page reloads.
+              </p>
+
+              <div class="docs-callout docs-callout-warning">
+                <strong>Note:</strong>&nbsp;The debug panel is intended for
+                development only. Remove <code>data-debug</code>before deploying
+                to production.
+              </div>
+            </section>
+
+            <!-- JavaScript API -->
+            <section id="javascript-api" class="docs-section">
+              <h2>JavaScript API</h2>
+              <p>
+                Form Attribution exposes a global <code>FormAttribution</code>
+                object for programmatic access to attribution data and control.
+              </p>
+
+              <h3>Methods</h3>
+              <div class="docs-table-wrapper">
+                <table class="docs-table">
+                  <thead>
+                    <tr>
+                      <th>Method</th>
+                      <th>Returns</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <code>getData()</code>
+                      </td>
+                      <td>
+                        <code>Object|null</code>
+                      </td>
+                      <td>Get all captured attribution data</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>getParam(name)</code>
+                      </td>
+                      <td>
+                        <code>string|null</code>
+                      </td>
+                      <td>Get a specific parameter value</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>getForms()</code>
+                      </td>
+                      <td>
+                        <code>Array</code>
+                      </td>
+                      <td>Get list of tracked forms with their status</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>clear()</code>
+                      </td>
+                      <td>
+                        <code>void</code>
+                      </td>
+                      <td>Clear all stored attribution data</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>refresh()</code>
+                      </td>
+                      <td>
+                        <code>void</code>
+                      </td>
+                      <td>Re-inject data into all forms</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>on(event, callback)</code>
+                      </td>
+                      <td>
+                        <code>Object</code>
+                      </td>
+                      <td>Register a callback for events (chainable, supports multiple listeners)</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>off(event, callback)</code>
+                      </td>
+                      <td>
+                        <code>Object</code>
+                      </td>
+                      <td>Unregister a previously registered callback (chainable)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3>Properties</h3>
+              <div class="docs-table-wrapper">
+                <table class="docs-table">
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <code>config</code>
+                      </td>
+                      <td>
+                        <code>Object</code>
+                      </td>
+                      <td>Current configuration (read-only)</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>github</code>
+                      </td>
+                      <td>
+                        <code>string</code>
+                      </td>
+                      <td>GitHub repository URL</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>docs</code>
+                      </td>
+                      <td>
+                        <code>string</code>
+                      </td>
+                      <td>Documentation URL</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3>Events</h3>
+              <div class="docs-table-wrapper">
+                <table class="docs-table">
+                  <thead>
+                    <tr>
+                      <th>Event</th>
+                      <th>Payload</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <code>onReady</code>
+                      </td>
+                      <td>
+                        <code>{ data, config }</code>
+                      </td>
+                      <td>Fired when initialization is complete</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>onCapture</code>
+                      </td>
+                      <td>
+                        <code>{ data }</code>
+                      </td>
+                      <td>Fired when new data is captured</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>onUpdate</code>
+                      </td>
+                      <td>
+                        <code>{ data }</code>
+                      </td>
+                      <td>Fired when data is updated</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3>Example Usage</h3>
+              <div class="code-block mb-4">
+                <div class="code-content">
+                  <pre
+                  ><code class="language-javascript">// Wait for initialization
+FormAttribution.on('onReady', ({ data, config }) => {
+  console.log('Attribution ready:', data);
+});
+
+// Get all attribution data
+const data = FormAttribution.getData();
+console.log(data);
+// { utm_source: 'google', utm_medium: 'cpc', ... }
+
+// Get a specific parameter
+const source = FormAttribution.getParam('utm_source');
+console.log(source); // 'google'
+
+// Get tracked forms
+const forms = FormAttribution.getForms();
+forms.forEach(form => {
+  // Status: 'Injected' (has data), 'Ready' (no data yet), or 'Excluded'
+  const status = form.excluded ? 'excluded' : form.injected ? 'injected' : 'ready';
+  console.log(form.name, status);
+});
+
+// Clear data (useful for testing)
+FormAttribution.clear();
+
+// Re-inject into forms
+FormAttribution.refresh();
+
+// Access current config
+console.log(FormAttribution.config.storage); // 'sessionStorage'
+
+// Remove a callback
+const myHandler = ({ data }) => console.log('Captured:', data);
+FormAttribution.on('onCapture', myHandler);
+// Later...
+FormAttribution.off('onCapture', myHandler);</code></pre>
+                </div>
+              </div>
+            </section>
+
             <!-- Captured Parameters -->
             <section id="parameters" class="docs-section">
               <h2>Captured Parameters</h2>
@@ -1218,137 +1510,6 @@
       src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"
     ></script>
     <script defer src="../theme.min.js"></script>
-    <script>
-    "use strict";
-
-    function initDocsNavigation() {
-      const sections = document.querySelectorAll(".docs-section");
-      const navLinks = document.querySelectorAll(".docs-nav-list a");
-
-      if (sections.length === 0 || navLinks.length === 0) {
-        return;
-      }
-
-      const observerOptions = {
-        rootMargin: "-20% 0px -60% 0px",
-        threshold: 0,
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute("id");
-            for (const link of navLinks) {
-              link.classList.toggle(
-                "active",
-                link.getAttribute("href") === `#${id}`
-              );
-            }
-          }
-        }
-      }, observerOptions);
-
-      for (const section of sections) {
-        observer.observe(section);
-      }
-    }
-
-    function initOpenInChat() {
-      const DEFAULT_QUERY =
-        "Help me implement the Form Attribution library (https://form-attribution.flashbrew.digital) on my website. It's a lightweight script that captures marketing attribution data (referrer, UTM parameters, ad click IDs, and more) and injects it into forms as hidden fields. Docs: https://form-attribution.flashbrew.digital/docs.";
-
-      const providers = {
-        chatgpt: (prompt) =>
-          `https://chatgpt.com/?${new URLSearchParams({ hints: "search", prompt })}`,
-        claude: (q) => `https://claude.ai/new?${new URLSearchParams({ q })}`,
-        scira: (q) => `https://scira.ai/?${new URLSearchParams({ q })}`,
-        t3: (q) => `https://t3.chat/new?${new URLSearchParams({ q })}`,
-        v0: (q) => `https://v0.app?${new URLSearchParams({ q })}`,
-        cursor: (text) => {
-          const url = new URL("https://cursor.com/link/prompt");
-          url.searchParams.set("text", text);
-          return url.toString();
-        },
-      };
-
-      const dropdowns = document.querySelectorAll(".open-in-chat");
-
-      for (const dropdown of dropdowns) {
-        const trigger = dropdown.querySelector(".open-in-chat-trigger");
-        const content = dropdown.querySelector(".open-in-chat-content");
-
-        if (!trigger) {
-          continue;
-        }
-        if (!content) {
-          continue;
-        }
-
-        // Set up provider URLs
-        const query = dropdown.dataset.query || DEFAULT_QUERY;
-        for (const item of dropdown.querySelectorAll("[data-provider]")) {
-          const provider = item.dataset.provider;
-          if (providers[provider]) {
-            item.href = providers[provider](query);
-          }
-        }
-
-        // Toggle dropdown
-        const toggle = (open) => {
-          const isOpen = open ?? dropdown.dataset.state !== "open";
-          dropdown.dataset.state = isOpen ? "open" : "closed";
-          trigger.setAttribute("aria-expanded", isOpen);
-        };
-
-        trigger.addEventListener("click", (e) => {
-          e.stopPropagation();
-          toggle();
-        });
-
-        // Close on outside click
-        document.addEventListener("click", (e) => {
-          if (!dropdown.contains(e.target)) {
-            toggle(false);
-          }
-        });
-
-        // Close on Escape
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && dropdown.dataset.state === "open") {
-            toggle(false);
-            trigger.focus();
-          }
-        });
-
-        // Keyboard navigation
-        content.addEventListener("keydown", (e) => {
-          const focusableItems = [...content.querySelectorAll("a, button")];
-          const currentIndex = focusableItems.indexOf(document.activeElement);
-
-          if (e.key === "ArrowDown") {
-            e.preventDefault();
-            const nextIndex = (currentIndex + 1) % focusableItems.length;
-            focusableItems[nextIndex]?.focus();
-          } else if (e.key === "ArrowUp") {
-            e.preventDefault();
-            const prevIndex =
-              currentIndex <= 0 ? focusableItems.length - 1 : currentIndex - 1;
-            focusableItems[prevIndex]?.focus();
-          }
-        });
-      }
-    }
-
-    const init = () => {
-      initDocsNavigation();
-      initOpenInChat();
-    };
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", init, { once: true });
-    } else {
-      init();
-    }
-    </script>
+    <script defer src="docs.min.js"></script>
   </body>
 </html>
