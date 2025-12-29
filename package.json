@@ -1,13 +1,14 @@
 {
   "name": "form-attribution",
-  "version": "2.0.0",
+  "version": "2.5.0",
   "description": "Automatically capture and persist marketing attribution data in your web forms.",
   "homepage": "https://github.com/flash-brew-digital/form-attribution#readme",
   "sideEffects": false,
   "type": "module",
   "main": "dist/script.min.js",
   "files": [
-    "dist/script.min.js"
+    "dist/script.min.js",
+    "dist/debug.min.js"
   ],
   "repository": {
     "type": "git",
@@ -31,7 +32,8 @@
     "url": "https://github.com/flash-brew-digital/form-attribution/issues"
   },
   "scripts": {
-    "build": "mkdir -p dist && npx terser src/script.js -o dist/script.min.js",
+    "build": "node scripts/build.js",
+    "minify-assets": "bash scripts/minify-assets.sh",
     "release": "pnpm build && npm publish --access public",
     "check": "npx ultracite check",
     "fix": "npx ultracite fix",
@@ -41,6 +43,8 @@
     "@biomejs/biome": "2.3.10",
     "@playwright/test": "^1.57.0",
     "@types/node": "^25.0.3",
+    "clean-css-cli": "^5.6.3",
+    "terser": "^5.44.1",
     "ultracite": "6.5.0"
   },
   "packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a"

@@ -47,6 +47,34 @@ const SELECTOR_VALID_REGEX = /^[a-zA-Z0-9._#[\]="':\s,>+~-]*$/;
   const MAX_PARAM_LENGTH = 500;
   const MAX_URL_LENGTH = 2000;
 
+  // Module-level state for API access
+  let storage = null;
+  let latestData = null;
+
+  // Callback registry (supports multiple listeners per event)
+  const callbacks = {
+    onCapture: [],
+    onUpdate: [],
+    onReady: [],
+  };
+
+  // Safe callback invocation
+  const invokeCallback = (name, payload) => {
+    const listeners = callbacks[name];
+    if (!Array.isArray(listeners)) {
+      return;
+    }
+    for (const fn of listeners) {
+      if (typeof fn === "function") {
+        try {
+          fn(payload);
+        } catch (e) {
+          log(`${name} callback error:`, e);
+        }
+      }
+    }
+  };
+
   const safeParse = (data) => {
     const parsed = JSON.parse(data);
     if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
@@ -561,6 +589,8 @@ const SELECTOR_VALID_REGEX = /^[a-zA-Z0-9._#[\]="':\s,>+~-]*$/;
     );
     attributionData.first_touch_timestamp = new Date().toISOString();
 
+    invokeCallback("onCapture", { data: attributionData });
+
     return attributionData;
   };
 
@@ -725,6 +755,34 @@ const SELECTOR_VALID_REGEX = /^[a-zA-Z0-9._#[\]="':\s,>+~-]*$/;
     }
   };
 
+  const getFormSelector = (form) => {
+    if (form.id) {
+      return `#${form.id}`;
+    }
+    if (form.name) {
+      return `[name="${form.name}"]`;
+    }
+    return null;
+  };
+
+  const hasInjectedFields = (form) => {
+    return form.querySelector('input[data-form-attribution="true"]') !== null;
+  };
+
+  const computeFormsList = () => {
+    const allForms = Array.from(document.querySelectorAll("form"));
+    return allForms.map((form) => {
+      const included = shouldIncludeForm(form);
+      return {
+        id: form.id || null,
+        name: form.name || null,
+        selector: getFormSelector(form),
+        injected: included && hasInjectedFields(form),
+        excluded: !included,
+      };
+    });
+  };
+
   const injectIntoForms = (data) => {
     const forms = getTargetForms();
 
@@ -744,11 +802,15 @@ const SELECTOR_VALID_REGEX = /^[a-zA-Z0-9._#[\]="':\s,>+~-]*$/;
       );
     }
 
+    const action = entries.length === 0 ? "clear" : "inject";
+
     log(
-      entries.length === 0
+      action === "clear"
         ? `Cleared attribution fields in ${forms.length} form(s)`
         : `Injected attribution data into ${forms.length} form(s)`
     );
+
+    invokeCallback("onUpdate", { forms, entries, data, action });
   };
 
   const setupFormObserver = (getData) => {
@@ -837,11 +899,119 @@ const SELECTOR_VALID_REGEX = /^[a-zA-Z0-9._#[\]="':\s,>+~-]*$/;
     return observer;
   };
 
+  // Dynamic debug script loader
+  const loadDebugOverlay = () => {
+    const scriptSrc = SCRIPT_ELEMENT?.getAttribute("src") || "";
+    const debugUrl = scriptSrc.includes("cdn.jsdelivr.net")
+      ? scriptSrc.replace("script.min.js", "debug.min.js")
+      : "./dist/debug.min.js";
+
+    const script = document.createElement("script");
+    script.src = debugUrl;
+    script.async = true;
+    script.onerror = () => log("Failed to load debug overlay from:", debugUrl);
+
+    document.head.appendChild(script);
+    log("Loading debug overlay from:", debugUrl);
+  };
+
+  // Public API
+  const api = {
+    /**
+     * Get all captured attribution data
+     * @returns {Object|null} Copy of attribution data or null
+     */
+    getData() {
+      return latestData ? { ...latestData } : null;
+    },
+
+    /**
+     * Get a specific parameter value
+     * @param {string} name - Parameter name
+     * @returns {string|null} Parameter value or null
+     */
+    getParam(name) {
+      return latestData?.[name] ?? null;
+    },
+
+    /**
+     * Get list of forms on the page with their current status
+     * @returns {Array} Array of form info objects
+     */
+    getForms() {
+      return computeFormsList();
+    },
+
+    /**
+     * Clear all stored attribution data
+     */
+    clear() {
+      latestData = null;
+      if (storage) {
+        storage.remove(CONFIG.storageKey);
+      }
+      injectIntoForms(null);
+      log("Attribution data cleared");
+    },
+
+    /**
+     * Re-inject data into all forms
+     */
+    refresh() {
+      injectIntoForms(latestData);
+      log("Forms refreshed");
+    },
+
+    /**
+     * Register a callback
+     * @param {string} event - Event name (onCapture, onUpdate, onReady)
+     * @param {Function} callback - Callback function
+     * @returns {Object} API for chaining
+     */
+    on(event, callback) {
+      if (event in callbacks && typeof callback === "function") {
+        callbacks[event].push(callback);
+      }
+      return this;
+    },
+
+    /**
+     * Unregister a callback
+     * @param {string} event - Event name (onCapture, onUpdate, onReady)
+     * @param {Function} callback - Callback function to remove
+     * @returns {Object} API for chaining
+     */
+    off(event, callback) {
+      if (event in callbacks) {
+        const idx = callbacks[event].indexOf(callback);
+        if (idx !== -1) {
+          callbacks[event].splice(idx, 1);
+        }
+      }
+      return this;
+    },
+
+    /**
+     * Get current configuration (read-only)
+     */
+    get config() {
+      return { ...CONFIG };
+    },
+
+    /**
+     * Metadata
+     */
+    github: "https://github.com/Flash-Brew-Digital/form-attribution",
+    docs: "https://form-attribution.flashbrew.digital/docs/",
+  };
+
+  // Expose API globally
+  window.FormAttribution = api;
+
   const init = async () => {
     log("Initializing with config:", CONFIG);
 
-    const storage = createStorageAdapter(CONFIG.storage);
-    let latestData = null;
+    storage = createStorageAdapter(CONFIG.storage);
 
     const existingData = await storage.get(CONFIG.storageKey);
     log("Existing attribution data:", existingData);
@@ -861,6 +1031,12 @@ const SELECTOR_VALID_REGEX = /^[a-zA-Z0-9._#[\]="':\s,>+~-]*$/;
     injectIntoForms(latestData);
 
     setupFormObserver(() => latestData);
+
+    invokeCallback("onReady", { data: latestData, config: CONFIG });
+
+    if (CONFIG.debug) {
+      loadDebugOverlay();
+    }
 
     log("Initialization complete");
   };

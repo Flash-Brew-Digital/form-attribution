@@ -18,6 +18,8 @@ A lightweight, zero-dependency script that automatically captures and passes the
 - **First-touch attribution** - Retains original attribution data even when users return later
 - **Privacy-respecting** - Complies with Global Privacy Control (GPC) and Do Not Track (DNT) preferences
 - **XSS-safe** - Sanitizes all injected values to prevent cross-site scripting attacks
+- **Debug panel** - Visual overlay for inspecting attribution data, forms, and activity in real-time
+- **JavaScript API** - Programmatic access via `window.FormAttribution` for custom integrations
 
 ## Quick Start
 
@@ -90,7 +92,7 @@ Configure the script by adding optional data attributes to the script tag:
 | `data-extra-params` | `""` | Comma-separated list of additional URL parameters to capture |
 | `data-exclude-forms` | `""` | CSS selector for forms to exclude from injection |
 | `data-storage-key` | `form_attribution_data` | Custom key name for stored data |
-| `data-debug` | `false` | Enable console logging |
+| `data-debug` | `false` | Enable console logging and debug panel |
 | `data-privacy` | `true` | Set to `"false"` to disable GPC/DNT privacy signal detection |
 | `data-click-ids` | `false` | Set to `"true"` to automatically capture ad platform click IDs |
 
@@ -163,6 +165,74 @@ By default, the script respects user privacy preferences:
 - **Do Not Track (DNT)** - Disables tracking when DNT is enabled
 
 When privacy signals are detected, no data is captured or stored. You can override this behavior by setting `data-privacy="false"` on the script tag.
+
+## JavaScript API
+
+Form Attribution exposes a global `FormAttribution` object for programmatic access:
+
+```javascript
+// Get all attribution data
+const data = FormAttribution.getData();
+
+// Get a specific parameter
+const source = FormAttribution.getParam('utm_source');
+
+// Get tracked forms with their status
+const forms = FormAttribution.getForms();
+
+// Clear all stored data
+FormAttribution.clear();
+
+// Re-inject data into forms
+FormAttribution.refresh();
+
+// Register event callbacks (supports multiple listeners)
+FormAttribution.on('onReady', ({ data, config }) => {
+  console.log('Attribution ready:', data);
+});
+
+// Remove a callback
+FormAttribution.off('onCapture', myHandler);
+```
+
+### Available Methods
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `getData()` | `Object\|null` | Get all captured attribution data |
+| `getParam(name)` | `string\|null` | Get a specific parameter value |
+| `getForms()` | `Array` | Get list of forms with their status |
+| `clear()` | `void` | Clear all stored attribution data |
+| `refresh()` | `void` | Re-inject data into all forms |
+| `on(event, cb)` | `Object` | Register event callback (chainable) |
+| `off(event, cb)` | `Object` | Unregister a callback (chainable) |
+
+### Events
+
+| Event | Payload | Description |
+|-------|---------|-------------|
+| `onReady` | `{ data, config }` | Fired when initialization is complete |
+| `onCapture` | `{ data }` | Fired when new data is captured |
+| `onUpdate` | `{ data }` | Fired when data is updated |
+
+## Debug Panel
+
+Enable the debug panel by adding `data-debug="true"` to the script tag:
+
+```html
+<script src="/dist/script.min.js" data-debug="true"></script>
+```
+
+The debug panel provides:
+
+- **Data Tab** - View all captured UTM parameters and metadata
+- **Forms Tab** - See all forms and their injection status (click to highlight)
+- **Log Tab** - Real-time activity log with timestamps
+- **Actions** - Copy data to clipboard, clear storage, refresh forms
+
+The panel is draggable, collapsible, and its state persists across page reloads. Uses Shadow DOM for style isolation.
+
+> **Note:** Remove `data-debug` before deploying to production.
 
 ## Injected Fields
 
