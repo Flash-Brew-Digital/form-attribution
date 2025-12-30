@@ -2,8 +2,9 @@
 
 A lightweight, zero-dependency script that automatically captures and passes the referrer, UTM parameters, ad click IDs, and more to your forms as hidden fields.
 
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE.md)
+![jsDelivr hits (npm)](https://img.shields.io/jsdelivr/npm/hw/form-attribution)
 [![npm version](https://img.shields.io/npm/v/form-attribution.svg)](https://www.npmjs.com/package/form-attribution)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE.md)
 
 **[Try the Script Builder](https://form-attribution.flashbrew.digital/builder?utm_source=github&utm_medium=referral&utm_campaign=readme)** |
 **[View Documentation](https://form-attribution.flashbrew.digital/docs?utm_source=github&utm_medium=referral&utm_campaign=readme)**
