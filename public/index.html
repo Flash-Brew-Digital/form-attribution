@@ -65,6 +65,13 @@
       type="module"
       integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"
     ></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap"
+      rel="stylesheet"
+    >
   </head>
   <body>
     <header class="header">
@@ -103,7 +110,7 @@
                   d="M16 22v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
                 />
               </svg>
-              View on GitHub
+              <span class="btn-text">View on GitHub</span>
             </a>
             <span class="header-separator" aria-hidden="true"></span>
             <div class="header-theme">
@@ -171,52 +178,32 @@
           <div class="hero-content">
             <h1 class="hero-title">
               Capture marketing attribution
-              <span class="hero-title-accent">automatically.</span>
+              <span class="hero-title-accent"
+                >auto<em>magic</em>ally</span
+              >
+              for your website.
             </h1>
             <p class="hero-description">
-              A lightweight, zero-dependency script that automatically captures
-              and passes the referrer, UTM parameters, ad click IDs, and more to
-              your forms as hidden fields.
+              The lightweight, no-code solution that captures UTM tags, ad click
+              IDs, referral sources, and more via every form on your site.
+              Always know where your leads come from.
             </p>
-            <div class="hero-actions">
-              <a href="/builder" class="btn btn-primary">
-                Try the Builder
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M5 12h14"/>
-                  <path d="m12 5 7 7-7 7"/>
-                </svg>
-              </a>
-              <a href="/docs" class="btn btn-secondary">Read the Docs</a>
-            </div>
-          </div>
-          <div class="hero-code">
-            <div class="code-block">
-              <div class="code-header">
-                <div class="code-dots">
-                  <span class="code-dot"></span>
-                  <span class="code-dot"></span>
-                  <span class="code-dot"></span>
-                </div>
+            <div class="hero-cta">
+              <div class="cdn-inline">
+                <code class="cdn-url" id="cdn-url">
+                  https://cdn.jsdelivr.net/npm/form-attribution@latest/dist/script.min.js
+                </code>
                 <button
                   type="button"
-                  class="code-copy-btn"
-                  aria-label="Copy code to clipboard"
+                  class="cdn-copy-btn"
+                  aria-label="Copy CDN URL to clipboard"
+                  id="cdn-copy-btn"
                 >
                   <svg
-                    class="code-copy-icon"
+                    class="cdn-copy-icon"
                     xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -231,10 +218,10 @@
                     />
                   </svg>
                   <svg
-                    class="code-check-icon"
+                    class="cdn-check-icon"
                     xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -247,9 +234,6 @@
                   </svg>
                 </button>
               </div>
-              <pre
-              ><code class="language-html"><span class="hljs-comment">&lt;!-- [Form Attribution] --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/form-attribution@latest/dist/script.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
             </div>
           </div>
         </div>
@@ -289,12 +273,12 @@
     <script>
     "use strict";
     document.addEventListener("DOMContentLoaded", () => {
-      const copyBtn = document.querySelector(".code-copy-btn");
-      const code = document.querySelector(".hero-code code");
-      if (copyBtn && code) {
+      const copyBtn = document.getElementById("cdn-copy-btn");
+      const cdnUrl = document.getElementById("cdn-url");
+      if (copyBtn && cdnUrl) {
         copyBtn.addEventListener("click", async () => {
           try {
-            await navigator.clipboard.writeText(code.textContent);
+            await navigator.clipboard.writeText(cdnUrl.textContent);
             copyBtn.classList.add("copied");
             setTimeout(() => copyBtn.classList.remove("copied"), 2000);
           } catch (err) {
