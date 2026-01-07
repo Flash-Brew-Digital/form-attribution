@@ -548,11 +548,79 @@ const initThemeHighlightListener = () => {
   });
 };
 
+const initOpenInChatDropdowns = () => {
+  const DEFAULT_QUERY =
+    "Help me implement the Form Attribution library (https://form-attribution.flashbrew.digital) on my website. It's a lightweight script that captures marketing attribution data (referrer, UTM parameters, ad click IDs, and more) and injects it into forms as hidden fields. Docs: https://form-attribution.flashbrew.digital/docs.";
+
+  const providers = {
+    chatgpt: (prompt) =>
+      `https://chatgpt.com/?${new URLSearchParams({ hints: "search", prompt })}`,
+    claude: (q) => `https://claude.ai/new?${new URLSearchParams({ q })}`,
+    scira: (q) => `https://scira.ai/?${new URLSearchParams({ q })}`,
+    t3: (q) => `https://t3.chat/new?${new URLSearchParams({ q })}`,
+    v0: (q) => `https://v0.app?${new URLSearchParams({ q })}`,
+    cursor: (text) => {
+      const url = new URL("https://cursor.com/link/prompt");
+      url.searchParams.set("text", text);
+      return url.toString();
+    },
+  };
+
+  const dropdowns = document.querySelectorAll(".open-in-chat");
+
+  for (const dropdown of dropdowns) {
+    const trigger = dropdown.querySelector(".open-in-chat-trigger");
+    const content = dropdown.querySelector(".open-in-chat-content");
+
+    if (!(trigger && content)) {
+      continue;
+    }
+
+    // Set up provider URLs
+    const query = dropdown.dataset.query || DEFAULT_QUERY;
+    for (const item of dropdown.querySelectorAll("[data-provider]")) {
+      const provider = item.dataset.provider;
+      if (providers[provider]) {
+        item.href = providers[provider](query);
+      }
+    }
+
+    // Toggle dropdown
+    const toggle = (open) => {
+      const isOpen =
+        open !== undefined ? open : dropdown.dataset.state !== "open";
+      dropdown.dataset.state = isOpen ? "open" : "closed";
+      trigger.setAttribute("aria-expanded", isOpen);
+    };
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggle();
+    });
+
+    // Close on outside click
+    document.addEventListener("click", (e) => {
+      if (!dropdown.contains(e.target)) {
+        toggle(false);
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && dropdown.dataset.state === "open") {
+        toggle(false);
+        trigger.focus();
+      }
+    });
+  }
+};
+
 const init = () => {
   initThemeHighlightListener();
   initTabs();
   initAccordions();
   initCodeExpandToggle();
+  initOpenInChatDropdowns();
 
   bindInputListeners();
   bindCopyListeners();
