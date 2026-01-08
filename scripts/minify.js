@@ -25,9 +25,7 @@ async function minifyCSS(filePath) {
 }
 
 async function main() {
-  const files = await glob("public/**/*.{js,css}");
-
-  for (const file of files) {
+  for await (const file of glob("public/**/*.{js,css}")) {
     try {
       if (file.endsWith(".js")) {
         await minifyJS(file);
