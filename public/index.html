@@ -57,8 +57,8 @@
       content="https://form-attribution.flashbrew.digital/opengraph-image.png"
     >
 
-    <link rel="stylesheet" href="styles.min.css" fetchpriority="high">
-    <link rel="stylesheet" href="index.min.css">
+    <link rel="stylesheet" href="styles.css" fetchpriority="high">
+    <link rel="stylesheet" href="index.css">
 
     <script
       src="//instant.page/5.2.0"
@@ -1463,18 +1463,20 @@
       defer
       src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js"
     ></script>
-    <script defer src="theme.min.js"></script>
+    <script defer src="theme.js"></script>
     <script>
     "use strict";
-    document.addEventListener("DOMContentLoaded", () => {
-      // Handle all CDN copy buttons with GSAP animation
+
+    const initCdnCopyButtons = () => {
       for (const btn of document.querySelectorAll(".cdn-copy-btn")) {
         const copyIcon = btn.querySelector(".cdn-copy-icon");
         const checkIcon = btn.querySelector(".cdn-check-icon");
         let isAnimating = false;
 
         btn.addEventListener("click", async () => {
-          if (isAnimating) return;
+          if (isAnimating) {
+            return;
+          }
 
           const container = btn.closest(".cdn-inline");
           const url = container.querySelector(".cdn-url");
@@ -1522,8 +1524,9 @@
           }
         });
       }
+    };
 
-      // Ask AI dropdown functionality
+    const initAskAiDropdowns = () => {
       const DEFAULT_QUERY =
         "Help me implement the Form Attribution library (https://form-attribution.flashbrew.digital) on my website. It's a lightweight script that captures marketing attribution data (referrer, UTM parameters, ad click IDs, and more) and injects it into forms as hidden fields. Docs: https://form-attribution.flashbrew.digital/docs.";
 
@@ -1541,9 +1544,7 @@
         },
       };
 
-      const dropdowns = document.querySelectorAll(".open-in-chat");
-
-      for (const dropdown of dropdowns) {
+      for (const dropdown of document.querySelectorAll(".open-in-chat")) {
         const trigger = dropdown.querySelector(".open-in-chat-trigger");
         const content = dropdown.querySelector(".open-in-chat-content");
 
@@ -1587,6 +1588,11 @@
           }
         });
       }
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initCdnCopyButtons();
+      initAskAiDropdowns();
 
       // FAQ accordion with GSAP
       const faqItems = document.querySelectorAll(".faq-item");
@@ -1597,18 +1603,44 @@
         const inner = details.querySelector(".faq-answer-inner");
         const icon = summary.querySelector("svg");
 
-        if (!(summary && answer && inner)) continue;
+        if (!(summary && answer && inner)) {
+          continue;
+        }
 
         let isAnimating = false;
 
         summary.addEventListener("click", (e) => {
           e.preventDefault();
-          if (isAnimating) return;
+          if (isAnimating) {
+            return;
+          }
 
           const isOpen = details.hasAttribute("open");
           isAnimating = true;
 
-          if (!isOpen) {
+          if (isOpen) {
+            // Closing
+            gsap.to(inner, {
+              opacity: 0,
+              duration: 0.25,
+              ease: "power1.out",
+            });
+            gsap.to(answer, {
+              height: 0,
+              duration: 0.4,
+              delay: 0.05,
+              ease: "power2.inOut",
+              onComplete: () => {
+                details.removeAttribute("open");
+                isAnimating = false;
+              },
+            });
+            gsap.to(icon, {
+              rotation: 0,
+              duration: 0.35,
+              ease: "power2.inOut",
+            });
+          } else {
             // Opening
             details.setAttribute("open", "");
             gsap.set(answer, { height: "auto" });
@@ -1633,28 +1665,6 @@
               rotation: 180,
               duration: 0.3,
               ease: "power2.out",
-            });
-          } else {
-            // Closing
-            gsap.to(inner, {
-              opacity: 0,
-              duration: 0.25,
-              ease: "power1.out",
-            });
-            gsap.to(answer, {
-              height: 0,
-              duration: 0.4,
-              delay: 0.05,
-              ease: "power2.inOut",
-              onComplete: () => {
-                details.removeAttribute("open");
-                isAnimating = false;
-              },
-            });
-            gsap.to(icon, {
-              rotation: 0,
-              duration: 0.35,
-              ease: "power2.inOut",
             });
           }
         });
@@ -1687,10 +1697,12 @@
 
         // Initial position
         const activeTab = tabsContainer.querySelector(".mock-tab.active");
-        if (activeTab) positionIndicator(activeTab);
+        if (activeTab) {
+          positionIndicator(activeTab);
+        }
 
         // Tab click handler
-        document.querySelectorAll(".mock-tab").forEach((tab) => {
+        for (const tab of document.querySelectorAll(".mock-tab")) {
           tab.addEventListener("click", () => {
             const panel = tab.closest(".debug-panel-mock");
             const tabName = tab.dataset.mockTab;
@@ -1701,12 +1713,14 @@
               `.mock-tab-content[data-mock-content="${tabName}"]`
             );
 
-            if (currentContent === newContent) return;
+            if (currentContent === newContent) {
+              return;
+            }
 
             // Update tab active states
-            panel
-              .querySelectorAll(".mock-tab")
-              .forEach((t) => t.classList.remove("active"));
+            for (const t of panel.querySelectorAll(".mock-tab")) {
+              t.classList.remove("active");
+            }
             tab.classList.add("active");
 
             // Animate indicator
@@ -1729,7 +1743,7 @@
               },
             });
           });
-        });
+        }
       }
 
       // Make debug panel mock draggable
@@ -1745,14 +1759,14 @@
           activeCursor: "grabbing",
           force3D: false,
           liveSnap: {
-            x: function (value) {
+            x(value) {
               return Math.round(value);
             },
-            y: function (value) {
+            y(value) {
               return Math.round(value);
             },
           },
-          onDragEnd: function () {
+          onDragEnd() {
             gsap.to(debugPanel, {
               x: 0,
               y: 0,

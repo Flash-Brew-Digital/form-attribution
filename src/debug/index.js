@@ -146,7 +146,6 @@
     }
   };
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: DOM helper, creates elements
   const el = (tag, attrs = {}, children = []) => {
     const element = document.createElement(tag);
 
@@ -171,7 +170,6 @@
     return element;
   };
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: SVG creation
   const svg = (paths, size = 12) => {
     const ns = "http://www.w3.org/2000/svg";
     const s = document.createElementNS(ns, "svg");

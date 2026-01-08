@@ -29,10 +29,10 @@ jobs:
           node-version: 24
 
       - name: Install minification tools
-        run: npm install --no-save terser clean-css-cli
+        run: npm install --no-save @swc/core lightningcss
 
       - name: Minify assets
-        run: npm run minify-assets
+        run: node scripts/minify.js
 
       - name: Generate sitemap
         uses: cicirello/generate-sitemap@v1

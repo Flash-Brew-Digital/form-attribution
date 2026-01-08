@@ -856,7 +856,9 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: color 0.15s, background-color 0.15s;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
 }
 
 .mock-tab:hover {

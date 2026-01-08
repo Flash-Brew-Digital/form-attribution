@@ -80,7 +80,6 @@ const animateThemeToggle = (theme) => {
   const moonColor = "hsl(240, 5.9%, 10%)";
   const inactiveColor = "hsl(240, 3.8%, 46.1%)";
 
-  // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
   gsap.to(thumb, {
     x: isDark ? "100%" : "0%",
     backgroundColor: thumbBg,
@@ -88,14 +87,12 @@ const animateThemeToggle = (theme) => {
     ease: "power2.inOut",
   });
 
-  // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
   gsap.to(sunIcon, {
     opacity: isDark ? 0.5 : 1,
     color: isDark ? inactiveColor : sunColor,
     duration: 0.4,
   });
 
-  // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
   gsap.to(moonIcon, {
     opacity: isDark ? 1 : 0.5,
     color: isDark ? moonColor : inactiveColor,
@@ -132,19 +129,16 @@ const setInitialGsapState = (theme) => {
   const moonColor = "hsl(240, 5.9%, 10%)";
   const inactiveColor = "hsl(240, 3.8%, 46.1%)";
 
-  // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
   gsap.set(thumb, {
     x: isDark ? "100%" : "0%",
     backgroundColor: thumbBg,
   });
 
-  // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
   gsap.set(sunIcon, {
     opacity: isDark ? 0.5 : 1,
     color: isDark ? inactiveColor : sunColor,
   });
 
-  // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
   gsap.set(moonIcon, {
     opacity: isDark ? 1 : 0.5,
     color: isDark ? moonColor : inactiveColor,

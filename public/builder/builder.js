@@ -59,7 +59,6 @@ const escapeAttributeValue = (value) =>
     .replace(/\r/g, "&#13;")
     .replace(/\n/g, "&#10;");
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Complex by nature - builds dynamic script tag
 const generateScriptTag = () => {
   const attributes = [];
   const scriptCloseTag = ["<", "/script>"].join("");
@@ -191,10 +190,8 @@ const showCopyFeedback = (ok) => {
     const originalBtnBorder = getComputedStyle(btn).borderColor;
     const originalBtnColor = getComputedStyle(btn).color;
 
-    // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
     gsap.killTweensOf([btn, iconCopy, iconCheck]);
 
-    // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
     const tl = gsap.timeline();
 
     tl.to(btn, {
@@ -246,7 +243,6 @@ const showCopyFeedback = (ok) => {
           duration: 0.4,
           ease: "power2.inOut",
           onComplete: () => {
-            // biome-ignore lint/correctness/noUndeclaredVariables: gsap is loaded from CDN
             gsap.set(btn, { clearProps: "all" });
           },
         },
