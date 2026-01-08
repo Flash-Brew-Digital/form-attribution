@@ -11,7 +11,8 @@ async function minifyJS(filePath) {
     mangle: true,
     module: true,
   });
-  await writeFile(filePath, result.code);
+  // Wrap in IIFE to isolate scope and prevent variable collisions between files
+  await writeFile(filePath, `(()=>{${result.code}})();`);
 }
 
 async function minifyCSS(filePath) {
