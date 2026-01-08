@@ -6,6 +6,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Public Sans";
+  src: url("PublicSans.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ========================================
    Homepage Styles
    ======================================== */
@@ -200,17 +208,13 @@
   box-shadow: 0 0 0 2px hsl(from var(--ring) h s l / 0.3);
 }
 
+.cdn-copy-btn svg {
+  position: absolute;
+}
+
 .cdn-copy-btn .cdn-check-icon {
-  display: none;
+  opacity: 0;
   color: hsl(142 70% 45%);
-}
-
-.cdn-copy-btn.copied .cdn-copy-icon {
-  display: none;
-}
-
-.cdn-copy-btn.copied .cdn-check-icon {
-  display: block;
 }
 
 /* Read Docs Button */
@@ -655,26 +659,16 @@
 .faq-question svg {
   flex-shrink: 0;
   color: var(--muted-foreground);
-  transition: transform 0.2s ease;
-}
-
-.faq-item[open] .faq-question svg {
-  transform: rotate(180deg);
 }
 
 .faq-answer {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 300ms ease-in-out;
+  height: 0;
+  overflow: hidden;
   padding: 0 1.25rem;
 }
 
-.faq-item[open] .faq-answer {
-  grid-template-rows: 1fr;
-}
-
 .faq-answer-inner {
-  overflow: hidden;
+  opacity: 0;
   padding-top: 0.5rem;
   padding-bottom: 1.25rem;
 }
@@ -693,6 +687,464 @@
   background-color: hsl(from var(--muted) h s l / 0.5);
   border-radius: calc(var(--radius) - 2px);
   color: var(--foreground);
+}
+
+/* ========================================
+   Debug Panel Section
+   ======================================== */
+.debug-section {
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.debug-content {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.debug-header {
+  margin-bottom: 1.5rem;
+}
+
+.debug-badge {
+  display: inline-block;
+  font-family: "Public Sans", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  background-color: hsl(from var(--muted) h s l / 0.5);
+  padding: 0.25rem 0.625rem;
+  border-radius: calc(var(--radius) - 2px);
+  margin-bottom: 0.75rem;
+}
+
+.debug-title {
+  font-family: "Public Sans", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+.debug-description {
+  font-family: "Public Sans", sans-serif;
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Debug Panel Mockup */
+.debug-preview {
+  position: relative;
+  margin: 1.5rem auto 2rem;
+  max-width: 540px;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.debug-panel-mock {
+  width: 340px;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  text-align: left;
+  font-size: 0.8125rem;
+}
+
+.mock-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 0.75rem;
+  background-color: hsl(from var(--muted) h s l / 0.5);
+  border-bottom: 1px solid var(--border);
+  cursor: grab;
+  user-select: none;
+}
+
+.mock-header:active {
+  cursor: grabbing;
+}
+
+.mock-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Public Sans", sans-serif;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--foreground);
+}
+
+.mock-title svg {
+  color: var(--muted-foreground);
+}
+
+.mock-controls {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.mock-ctrl {
+  width: 0.875rem;
+  height: 0.875rem;
+  background-color: hsl(from var(--muted) h s l / 0.8);
+  border-radius: 3px;
+}
+
+.mock-status {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background-color: hsl(from var(--muted) h s l / 0.25);
+  border-bottom: 1px solid var(--border);
+  font-family: "Public Sans", sans-serif;
+  font-size: 0.6875rem;
+  color: var(--muted-foreground);
+}
+
+.mock-status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.mock-status-item strong {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.mock-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background-color: hsl(142 76% 36%);
+  box-shadow: 0 0 4px hsl(142 76% 36%);
+}
+
+.mock-tabs {
+  position: relative;
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+
+.mock-tab-indicator {
+  position: absolute;
+  bottom: -1px;
+  height: 2px;
+  background-color: var(--foreground);
+}
+
+.mock-tab {
+  flex: 1;
+  padding: 0.5rem;
+  font-family: "Public Sans", sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-align: center;
+  color: var(--muted-foreground);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.mock-tab:hover {
+  color: var(--foreground);
+  background-color: hsl(from var(--muted) h s l / 0.25);
+}
+
+.mock-tab.active {
+  color: var(--foreground);
+}
+
+.mock-content {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.mock-tab-content {
+  display: none;
+}
+
+.mock-tab-content.active {
+  display: block;
+}
+
+.mock-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mock-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mock-content::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.mock-content::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+.mock-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  font-family: "Public Sans", sans-serif;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  background-color: hsl(from var(--muted) h s l / 0.15);
+}
+
+.mock-badge {
+  font-size: 0.6575rem;
+  font-weight: 500;
+  padding: 0.125rem 0.375rem;
+  background-color: var(--muted);
+  color: var(--foreground);
+  border-radius: 3px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.mock-rows {
+  border-bottom: 1px solid hsl(from var(--border) h s l / 0.5);
+}
+
+.mock-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid hsl(from var(--border) h s l / 0.3);
+}
+
+.mock-row:last-child {
+  border-bottom: none;
+}
+
+.mock-key {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+.mock-value {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--foreground);
+}
+
+.mock-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.5rem 0.75rem;
+  background-color: hsl(from var(--muted) h s l / 0.25);
+  border-top: 1px solid var(--border);
+}
+
+.mock-btns {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.mock-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--foreground);
+  cursor: default;
+  transition: background-color 0.15s;
+}
+
+.mock-action-btn:hover {
+  background-color: var(--accent);
+}
+
+/* Forms Tab */
+.mock-form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid hsl(from var(--border) h s l / 0.3);
+}
+
+.mock-form-row:last-child {
+  border-bottom: none;
+}
+
+.mock-form-name {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  color: var(--foreground);
+}
+
+.mock-form-name svg {
+  color: var(--muted-foreground);
+}
+
+.mock-form-status {
+  font-family: "Public Sans", sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  padding: 0.125rem 0.375rem;
+  border-radius: 3px;
+}
+
+.mock-form-status.injected {
+  background-color: hsl(142 76% 36% / 0.15);
+  color: hsl(142 76% 36%);
+}
+
+.mock-form-status.excluded {
+  background-color: hsl(0 84% 60% / 0.15);
+  color: hsl(0 84% 60%);
+}
+
+/* Log Tab */
+.mock-log-list {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+}
+
+.mock-log-entry {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border-bottom: 1px solid hsl(from var(--border) h s l / 0.2);
+}
+
+.mock-log-entry:last-child {
+  border-bottom: none;
+}
+
+.mock-log-time {
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+}
+
+.mock-log-msg {
+  color: var(--foreground);
+}
+
+.mock-log-msg.success {
+  color: hsl(142 76% 36%);
+}
+
+.debug-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .debug-features {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+}
+
+.debug-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0.75rem;
+  background-color: hsl(from var(--muted) h s l / 0.3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+@media (min-width: 640px) {
+  .debug-feature {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    flex: 1;
+    max-width: 160px;
+  }
+}
+
+.debug-feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--foreground);
+  flex-shrink: 0;
+}
+
+.debug-feature-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+@media (min-width: 640px) {
+  .debug-feature-text {
+    text-align: center;
+  }
+}
+
+.debug-feature-title {
+  font-family: "Public Sans", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.debug-feature-desc {
+  font-family: "Public Sans", sans-serif;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  line-height: 1.4;
+}
+
+.debug-code {
+  display: inline-block;
+}
+
+.debug-code code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.875rem;
+  color: var(--foreground);
+  background-color: hsl(from var(--muted) h s l / 0.5);
+  padding: 0.375rem 0.75rem;
+  border-radius: calc(var(--radius) - 2px);
+  border: 1px solid var(--border);
 }
 
 /* ========================================

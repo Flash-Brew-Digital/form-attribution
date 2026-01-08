@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "Bricolage Grotesque";
-  src: url("BricolageGrotesque.woff2") format("woff2");
+  font-family: "Public Sans";
+  src: url("PublicSans.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -98,7 +98,6 @@ body {
 }
 
 .header {
-  border-bottom: 1px solid var(--border);
   padding-block: 1rem;
   transition:
     background-color 0.3s ease,
@@ -1179,6 +1178,7 @@ body {
   font-family: "Public Sans", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
+  line-height: 1.25;
   color: var(--foreground);
   text-decoration: none;
   background-color: transparent;
@@ -1215,6 +1215,7 @@ body {
   font-family: "Public Sans", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
+  line-height: 1.25;
   background-color: transparent;
   border: 1px solid var(--input);
   border-radius: var(--radius);
