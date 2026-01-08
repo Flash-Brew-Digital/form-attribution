@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Public Sans";
-  src: url("PublicSans.woff2") format("woff2");
+  src: url("/assets/PublicSans.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -1174,8 +1174,10 @@ body {
 .help-email-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.875rem;
+  min-width: 130px;
+  padding: 0.5rem 1.125rem;
   font-family: "Public Sans", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
@@ -1211,7 +1213,9 @@ body {
 .open-in-chat-trigger {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  min-width: 130px;
   padding: 0.5rem 0.875rem;
   font-family: "Public Sans", sans-serif;
   font-size: 0.875rem;
@@ -1243,6 +1247,9 @@ body {
 }
 
 .open-in-chat-trigger .chevron {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-left: -0.125rem;
   transition: transform 0.2s ease;
 }
 
@@ -1282,6 +1289,7 @@ body {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--muted-foreground);
+  text-align: left;
 }
 
 .open-in-chat-separator {

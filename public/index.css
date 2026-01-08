@@ -1,6 +1,6 @@
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("JetBrainsMono.woff2") format("woff2");
+  src: url("/assets/JetBrainsMono.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "Public Sans";
-  src: url("PublicSans.woff2") format("woff2");
+  src: url("/assets/PublicSans.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -20,13 +20,18 @@
 
 /* Hero Section */
 .hero {
-  padding: 3.5rem 0 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 3rem;
 }
 
-@media (min-width: 1024px) {
-  .hero {
-    padding: 5rem 0 0;
-  }
+.hero > .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .hero-content {
@@ -122,7 +127,7 @@
 
 @media (min-width: 640px) {
   .hero-description {
-    font-size: 1.125rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -248,12 +253,12 @@
    What Gets Captured Section
    ======================================== */
 .captured-section {
-  padding: 3.5rem 0;
+  padding-bottom: 3.5rem;
 }
 
 @media (min-width: 1024px) {
   .captured-section {
-    padding: 4.5rem 0;
+    padding-bottom: 4.5rem;
   }
 }
 
@@ -344,12 +349,12 @@
    How It Works Section
    ======================================== */
 .how-section {
-  padding: 2rem 0 3.5rem;
+  padding-bottom: 3.5rem;
 }
 
 @media (min-width: 1024px) {
   .how-section {
-    padding: 2.5rem 0 4.5rem;
+    padding-bottom: 4.5rem;
   }
 }
 
@@ -560,7 +565,7 @@
   }
 }
 
-.faq-bg {
+.dot-bg {
   position: absolute;
   inset: 0;
   background-image: radial-gradient(
@@ -1136,7 +1141,11 @@
 }
 
 .debug-code {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
 }
 
 .debug-code code {
@@ -1147,6 +1156,44 @@
   padding: 0.375rem 0.75rem;
   border-radius: calc(var(--radius) - 2px);
   border: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+
+.debug-code-hint,
+.debug-code-copied {
+  font-family: "Public Sans", sans-serif;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.debug-code-hint {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.debug-code:hover .debug-code-hint {
+  opacity: 1;
+}
+
+.debug-code.copied .debug-code-hint {
+  opacity: 0;
+}
+
+.debug-code-copied {
+  opacity: 0;
+  color: hsl(142 76% 36%);
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.debug-code.copied .debug-code-copied {
+  opacity: 1;
 }
 
 /* ========================================
